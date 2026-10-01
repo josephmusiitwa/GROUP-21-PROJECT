@@ -1,0 +1,21 @@
+cmake_minimum_required(VERSION 3.20)
+project(meanshift LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+file(GLOB LIB_SOURCES src/*.cpp)
+add_library(meanshift ${LIB_SOURCES})
+target_include_directories(meanshift PUBLIC include third_party)
+
+enable_testing()
+file(GLOB TEST_SOURCES tests/*.cpp)
+add_executable(meanshift_tests ${TEST_SOURCES})
+target_link_libraries(meanshift_tests PRIVATE meanshift)
+add_test(NAME all_tests COMMAND meanshift_tests)
+
+file(GLOB EXAMPLE_SOURCES examples/*.cpp)
+foreach(example_src ${EXAMPLE_SOURCES})
+    get_filename_component(example_name ${example_src} NAME_WE)
+    add_executable(${example_name} ${example_src})
+    target_link_libraries(${example_name} PRIVATE meanshift)
+endforeach()
