@@ -41,3 +41,15 @@ public:
 
     // Cluster evaluation (e.g. Silhouette Score or simplified cohesion)
     double evaluate(const Data& data) const;
+    private:
+    double bandwidth_;
+    double epsilon_;
+    int maxIterations_;
+
+    vector<Cluster> clusters_;
+    vector<int> labels_;
+};
+
+} // namespace meanshift
+
+#endif // MEANSHIFT_HPP
