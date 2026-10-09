@@ -38,3 +38,27 @@ void MeanShift::estimateBandwidth(const Data& data) {
     bandwidth_ = (count > 0) ? (totalDist / count) * 0.5 : 1.0;
     if (bandwidth_ <= 0) bandwidth_ = 1.0;
 }
+
+Point MeanShift::shiftPoint(const Point& p, const Data& data) const {
+    Point shiftedP = p;
+    Point numerator(p.size(), 0.0);
+    double denominator = 0.0;
+
+    for (const auto& other_p : data) {
+        double dist = euclideanDistance(p, other_p);
+        double weight = gaussianKernel(dist);
+
+        for (size_t i = 0; i < p.size(); ++i) {
+            numerator[i] += other_p[i] * weight;
+        }
+        denominator += weight;
+    }
+
+    if (denominator > 0) {
+        for (size_t i = 0; i < p.size(); ++i) {
+            shiftedP[i] = numerator[i] / denominator;
+        }
+    }
+
+    return shiftedP;
+    }
