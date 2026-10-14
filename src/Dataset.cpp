@@ -12,7 +12,7 @@ Dataset::Dataset() {}
 bool Dataset::loadFromCSV(const string& filename, bool hasHeader) {
     ifstream file(filename);
     if (!file.is_open()) {
-        cerr << "Error: Cannot open file " << filename << endl;
+           cerr << "Error: Cannot open file " << filename << endl;
         return false;
     }
 
@@ -31,14 +31,44 @@ bool Dataset::loadFromCSV(const string& filename, bool hasHeader) {
         while (getline(ss, token, ',')) {
             try {
                 p.push_back(stod(token));
-            } catch (const exception& e) {
-                // In case of non-numeric data, we can ignore the point or handle it.
-                // For simplicity, we assume all columns are features.
-            }
+              }
+               catch (const exception& e) {
+
+ }
         }
         if (!p.empty()) {
             data_.push_back(p);
-        }
-    }
-    return true;
+  }
+    }   
+     return true;
 }
+const Data& Dataset::getData() const {
+    return data_;
+}
+
+void Dataset::standardize() {
+    if (data_.empty()) return;
+
+    size_t numFeatures = data_[0].size();
+    Point means(numFeatures, 0.0);
+    Point stdDevs(numFeatures, 0.0);
+
+    // Calculate means
+    for (const auto& point : data_) {
+     for (size_t i = 0; i < numFeatures; ++i) {
+ means[i] += point[i];
+    }
+    }
+    for (size_t i = 0; i < numFeatures; ++i) {
+       means[i] /= data_.size();
+    }
+
+    // Calculate standard deviations
+    for (const auto& point : data_) {
+  for (size_t i = 0; i < numFeatures; ++i) {
+ stdDevs[i] += pow(point[i] - means[i], 2);
+   }
+ }
+    for (size_t i = 0; i < numFeatures; ++i) {
+    stdDevs[i] = sqrt(stdDevs[i] / data_.size());
+   }
