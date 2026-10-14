@@ -62,3 +62,36 @@ Point MeanShift::shiftPoint(const Point& p, const Data& data) const {
 
     return shiftedP;
     }
+    
+void MeanShift::fit(const Data& data) {
+    if (data.empty()) return;
+
+    if (bandwidth_ <= 0) {
+        estimateBandwidth(data);
+    }
+
+    vector<Point> shiftedPoints = data;
+    vector<bool> stopMoving(data.size(), false);
+
+    for (int iter = 0; iter < maxIterations_; ++iter) {
+        int maxDistMoved = 0;
+        bool allStopped = true;
+
+        for (size_t i = 0; i < shiftedPoints.size(); ++i) {
+            if (stopMoving[i]) continue;
+
+            Point newPoint = shiftPoint(shiftedPoints[i], data);
+            double dist = euclideanDistance(shiftedPoints[i], newPoint);
+            
+            if (dist < epsilon_) {
+                stopMoving[i] = true;
+            } else {
+                allStopped = false;
+            }
+            shiftedPoints[i] = newPoint;
+        }
+
+        if (allStopped) {
+            break;
+        }
+    }
