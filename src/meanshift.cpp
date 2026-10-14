@@ -123,3 +123,28 @@ void MeanShift::fit(const Data& data) {
         }
     }
 }
+const vector<Cluster>& MeanShift::getClusters() const {
+    return clusters_;
+}
+
+const vector<int>& MeanShift::getLabels() const {
+    return labels_;
+}
+
+// Simplified intra-cluster variance evaluation (lower is better, cohesion)
+double MeanShift::evaluate(const Data& data) const {
+    if (clusters_.empty() || data.empty()) return 0.0;
+    
+    double totalVariance = 0.0;
+    for (const auto& cluster : clusters_) {
+        double clusterVar = 0.0;
+        for (size_t idx : cluster.pointIndices) {
+            clusterVar += euclideanDistance(data[idx], cluster.centroid);
+        }
+        totalVariance += clusterVar;
+    }
+    return totalVariance / data.size();
+}
+
+} // namespace meanshift
+
