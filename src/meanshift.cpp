@@ -95,3 +95,31 @@ void MeanShift::fit(const Data& data) {
             break;
         }
     }
+
+    // Cluster formation
+    clusters_.clear();
+    labels_.assign(data.size(), -1);
+
+    for (size_t i = 0; i < shiftedPoints.size(); ++i) {
+        int clusterIdx = 0;
+        bool found = false;
+
+        for (auto& cluster : clusters_) {
+            if (euclideanDistance(shiftedPoints[i], cluster.centroid) < (bandwidth_ / 2.0)) {
+                cluster.pointIndices.push_back(i);
+                labels_[i] = clusterIdx;
+                found = true;
+                break;
+            }
+            clusterIdx++;
+        }
+
+        if (!found) {
+            Cluster newCluster;
+            newCluster.centroid = shiftedPoints[i];
+            newCluster.pointIndices.push_back(i);
+            clusters_.push_back(newCluster);
+            labels_[i] = clusters_.size() - 1;
+        }
+    }
+}
