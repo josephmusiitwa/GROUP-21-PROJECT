@@ -24,8 +24,7 @@ double MeanShift::gaussianKernel(double distance) const {
 void MeanShift::estimateBandwidth(const Data& data) {
     if (data.empty()) return;
     
-    // Simple heuristic: average distance between all pairs (or a subset)
-    // To avoid O(N^2) on large datasets, we use a subset.
+    // Sample up to 500 points to avoid O(N^2) pairwise distance cost on large datasets
     size_t numSamples = min<size_t>(500, data.size());
     double totalDist = 0;
     int count = 0;
@@ -61,8 +60,8 @@ Point MeanShift::shiftPoint(const Point& p, const Data& data) const {
     }
 
     return shiftedP;
-    }
-    
+}
+
 void MeanShift::fit(const Data& data) {
     if (data.empty()) return;
 
@@ -96,7 +95,7 @@ void MeanShift::fit(const Data& data) {
         }
     }
 
-    // Cluster formation
+    // Merge converged points within bandwidth / 2 into clusters
     clusters_.clear();
     labels_.assign(data.size(), -1);
 
@@ -123,6 +122,7 @@ void MeanShift::fit(const Data& data) {
         }
     }
 }
+
 const vector<Cluster>& MeanShift::getClusters() const {
     return clusters_;
 }
@@ -131,7 +131,6 @@ const vector<int>& MeanShift::getLabels() const {
     return labels_;
 }
 
-// Simplified intra-cluster variance evaluation (lower is better, cohesion)
 double MeanShift::evaluate(const Data& data) const {
     if (clusters_.empty() || data.empty()) return 0.0;
     
@@ -147,4 +146,3 @@ double MeanShift::evaluate(const Data& data) const {
 }
 
 } // namespace meanshift
-

@@ -18,30 +18,21 @@ class MeanShift {
 public:
     MeanShift(double bandwidth = -1.0, double epsilon = 1e-3, int maxIterations = 300);
 
-    // Distance calculation (Euclidean)
     static double euclideanDistance(const Point& a, const Point& b);
-
-    // Kernel function (Gaussian)
     double gaussianKernel(double distance) const;
 
-    // Bandwidth selection (estimates if bandwidth <= 0)
+    // Automatically estimates bandwidth when bandwidth <= 0
     void estimateBandwidth(const Data& data);
 
-    // Main Mean Shift clustering algorithm
     void fit(const Data& data);
-
-    // Mean shift vector calculation and Centroid updating
     Point shiftPoint(const Point& p, const Data& data) const;
 
-    // Get final clusters
     const vector<Cluster>& getClusters() const;
-
-    // Get assignments (cluster index for each point)
     const vector<int>& getLabels() const;
 
-    // Cluster evaluation (e.g. Silhouette Score or simplified cohesion)
+    // Mean intra-cluster distance to centroid (lower indicates tighter cohesion)
     double evaluate(const Data& data) const;
-    
+
 private:
     double bandwidth_;
     double epsilon_;
@@ -53,6 +44,4 @@ private:
 
 } // namespace meanshift
 
-#endif // MEANSHIFT_HPP
-
-   
+#endif // MEANSHIFT_HPP

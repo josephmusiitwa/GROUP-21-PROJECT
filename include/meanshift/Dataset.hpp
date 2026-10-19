@@ -15,20 +15,15 @@ class Dataset {
 public:
     Dataset();
 
-    // Dataset loading from CSV
     bool loadFromCSV(const string& filename, bool hasHeader = true);
-
-    // Get the raw data
     const Data& getData() const;
 
-    // Feature scaling: Standard Scaler (z-score normalization)
+    // Z-score normalization
     void standardize();
 
-    // Feature scaling: Min-Max Scaler
+    // Min-Max scaling to [0, 1]
     void normalize();
 
-    // Data preprocessing (remove NaNs, etc., simple version removes rows with invalid values if any)
-    // Note: Assuming valid numeric CSV for simplicity.
 private:
     Data data_;
 };
@@ -37,5 +32,3 @@ private:
 
 #endif // DATASET_HPP
 
-    
-    
