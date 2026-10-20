@@ -23,7 +23,7 @@
 ---
 
 ## Challenges/Blockers
-- **Missing Input Data File:** `Sample data has not yet been included into the input folders.
+- **Missing Input Data File:** Sample data has not yet been included into the input folders.
 - **Limited Test Coverage:** Current tests only verify two normal-use cases and do not yet cover `Dataset` operations, edge cases, or invalid inputs.
 
 ---
