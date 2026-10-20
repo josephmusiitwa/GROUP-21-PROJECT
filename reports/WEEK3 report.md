@@ -48,12 +48,21 @@ Encapsulation is implemented by bundling internal data (`private`) with the meth
 - **`Cluster` (`include/meanshift/MeanShift.hpp`):**
   - Defined as a plain data `struct` with `public` members (`centroid` and `pointIndices`), safely exposed to callers as a read-only reference via `const vector<Cluster>& getClusters() const`.
 
+
+![Dataset and MeanShift class diagrams](images/encapsulation_classes.jpeg)
+
+
+![Namespace meanshift: Dataset, MeanShift and Cluster](images/encapsulation_namespace.jpeg)
+
 ### 2. Inheritance
 - **Library Classes (`Dataset`, `MeanShift`, `Cluster`):**
   - The library uses **composition and modular separation** rather than class inheritance (`Base -> Derived`). `Dataset` handles file I/O and feature scaling, while `MeanShift` handles clustering on `const Data&`. Because neither class has derived subclasses, no `protected` members are needed.
 - **Standard Library Inheritance Used:**
   - **Stream Hierarchy:** `Dataset::loadFromCSV()` uses `std::ifstream` and `std::stringstream` (both derived from `std::istream`) with `std::getline()`.
   - **Exception Hierarchy:** `Dataset::loadFromCSV()` catches `const std::exception&` to handle derived exceptions (`std::invalid_argument`, `std::out_of_range`) thrown by `std::stod()`.
+
+
+![Standard library inheritance: istream and exception hierarchies](images/inheritance_stdlib.jpeg)
 
 ### 3. Polymorphism
 - **Compile-Time Overloading via Default Arguments:**
@@ -63,6 +72,9 @@ Encapsulation is implemented by bundling internal data (`private`) with the meth
   - Uses C++ Standard Library templates (`std::vector<double>`, `std::vector<Point>`, `std::vector<Cluster>`, `std::vector<int>`, `std::vector<size_t>`, and `std::min<size_t>`) to work generically across data containers.
 - **Runtime Polymorphism:**
   - Used via base-class references in the C++ standard library (`const std::exception&` in `try/catch` and `std::istream&` in `std::getline()`). Custom `virtual` functions are not used since `Dataset` and `MeanShift` are standalone concrete classes without derived types.
+
+
+![Polymorphism in the C++ project: overloading, templates, base-class references](images/polymorphism_overview.jpeg)
 
 ---
 
