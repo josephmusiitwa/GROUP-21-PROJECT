@@ -68,4 +68,4 @@ Encapsulation is implemented by bundling internal data (`private`) with the meth
 
 ## AI Use
 - **Tool:** Gemini and Claude
-**Purpose** To help us identify where the inheritance and polymorphism is in our codes since it was not as direct forwaed as the one we studied in class.
+- **Purpose:** To help us identify where the inheritance and polymorphism is in our codes since it was not as direct forwaed as the one we studied in class.
