@@ -18,7 +18,7 @@
 ## In Progress
 - Expanding `tests/test_meanshift.cpp` to test `Dataset` methods (`loadFromCSV`, `getData`, `standardize`, `normalize`), edge cases, and invalid inputs for `MeanShift`.
 - Adding `data/input/my_data.csv` (required by `example1.cpp`) along with additional sample datasets and example programs.
-- Writing the individual reports about each members full contribution to the project and  the final project report.
+- Writing the individual reports about each member's full contribution to the project and  the final project report.
 
 ---
 
