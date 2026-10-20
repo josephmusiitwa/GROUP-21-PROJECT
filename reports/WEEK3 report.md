@@ -51,7 +51,9 @@ Encapsulation is implemented by bundling internal data (`private`) with the meth
 ### 2. Inheritance
 - **Library Classes (`Dataset`, `MeanShift`, `Cluster`):**
   - The library uses **composition and modular separation** rather than class inheritance (`Base -> Derived`). `Dataset` handles file I/O and feature scaling, while `MeanShift` handles clustering on `const Data&`. Because neither class has derived subclasses, no `protected` members are needed.
-
+- **Standard Library Inheritance Used:**
+  - **Stream Hierarchy:** `Dataset::loadFromCSV()` uses `std::ifstream` and `std::stringstream` (both derived from `std::istream`) with `std::getline()`.
+  - **Exception Hierarchy:** `Dataset::loadFromCSV()` catches `const std::exception&` to handle derived exceptions (`std::invalid_argument`, `std::out_of_range`) thrown by `std::stod()`.
 
 ### 3. Polymorphism
 - **Compile-Time Overloading via Default Arguments:**
