@@ -14,20 +14,16 @@
   - Added `examples/example1.cpp` to load external CSV data, run `MeanShift`, print cluster summaries, and save labeled output to `data/output/results.csv` *(Simon)*.
   - Set up `examples/` and added unit tests in `tests/test_meanshift.cpp` (`testEuclideanDistance` and `testMeanShiftClustering`) *(Joseph)*.
   - Implemented `examples/example2.cpp` with sample data setup, `fit()` execution, and output of cluster count, centroids, and evaluation score *(Mark & Jonathan)*.
-- **Repository Structure & Code Cleanup (`include/meanshift/`, `src/`, `examples/`):**
-  - Moved `Dataset.hpp` and `MeanShift.hpp` into `include/meanshift/`, removed tracked compiler cache files (`src/gcm.cache/`) and `reports/.gitkeep`, and cleaned up unnecessary comments across headers, source files, and examples *(Joseph)*.
-
----
 
 ## In Progress
 - Expanding `tests/test_meanshift.cpp` to test `Dataset` methods (`loadFromCSV`, `getData`, `standardize`, `normalize`), edge cases, and invalid inputs for `MeanShift`.
 - Adding `data/input/my_data.csv` (required by `example1.cpp`) along with additional sample datasets and example programs.
-- Writing the full `README.md` documentation and drafting the final project report.
+- Writing the individual reports about each members full contribution to the project and  the final project report.
 
 ---
 
 ## Challenges/Blockers
-- **Missing Input Data File:** `examples/example1.cpp` exits with an error by default because `data/input/my_data.csv` has not been added to `data/input/` yet.
+- **Missing Input Data File:** `Sample data has not yet been included into the input folders.
 - **Limited Test Coverage:** Current tests only verify two normal-use cases and do not yet cover `Dataset` operations, edge cases, or invalid inputs.
 
 ---
@@ -55,9 +51,7 @@ Encapsulation is implemented by bundling internal data (`private`) with the meth
 ### 2. Inheritance
 - **Library Classes (`Dataset`, `MeanShift`, `Cluster`):**
   - The library uses **composition and modular separation** rather than class inheritance (`Base -> Derived`). `Dataset` handles file I/O and feature scaling, while `MeanShift` handles clustering on `const Data&`. Because neither class has derived subclasses, no `protected` members are needed.
-- **Standard Library Inheritance Used:**
-  - **Stream Hierarchy:** `Dataset::loadFromCSV()` uses `std::ifstream` and `std::stringstream` (both derived from `std::istream`) with `std::getline()`.
-  - **Exception Hierarchy:** `Dataset::loadFromCSV()` catches `const std::exception&` to handle derived exceptions (`std::invalid_argument`, `std::out_of_range`) thrown by `std::stod()`.
+
 
 ### 3. Polymorphism
 - **Compile-Time Overloading via Default Arguments:**
@@ -70,78 +64,8 @@ Encapsulation is implemented by bundling internal data (`private`) with the meth
 
 ---
 
-## Class Layouts
 
-*(Hand-drawn paper class layout diagrams are uploaded alongside this report.)*
-
-```text
-+-------------------------------------------------------------------+
-|                        namespace meanshift                        |
-|   using Point = std::vector<double>;                              |
-|   using Data  = std::vector<Point>;                               |
-+-------------------------------------------------------------------+
-
-+-------------------------------------------------------------------+
-|                          class Dataset                            |
-+-------------------------------------------------------------------+
-| private:                                                          |
-|   - data_ : Data                                                  |
-+-------------------------------------------------------------------+
-| protected:                                                        |
-|   (none)                                                          |
-+-------------------------------------------------------------------+
-| public:                                                           |
-|   + Dataset()                                                     |
-|   + loadFromCSV(filename : const string&, hasHeader : bool = true)|
-|       : bool                                                      |
-|   + getData() const : const Data&                                 |
-|   + standardize() : void                                          |
-|   + normalize() : void                                            |
-+-------------------------------------------------------------------+
-                                  |
-                                  | passes const Data& (via getData())
-                                  v
-+-------------------------------------------------------------------+
-|                         class MeanShift                           |
-+-------------------------------------------------------------------+
-| private:                                                          |
-|   - bandwidth_     : double                                       |
-|   - epsilon_       : double                                       |
-|   - maxIterations_ : int                                          |
-|   - clusters_      : vector<Cluster>                              |
-|   - labels_        : vector<int>                                  |
-+-------------------------------------------------------------------+
-| protected:                                                        |
-|   (none)                                                          |
-+-------------------------------------------------------------------+
-| public:                                                           |
-|   + MeanShift(bandwidth : double = -1.0,                          |
-|               epsilon : double = 1e-3,                            |
-|               maxIterations : int = 300)                          |
-|   + static euclideanDistance(a : const Point&, b : const Point&)  |
-|       : double                                                    |
-|   + gaussianKernel(distance : double) const : double              |
-|   + estimateBandwidth(data : const Data&) : void                  |
-|   + fit(data : const Data&) : void                                |
-|   + shiftPoint(p : const Point&, data : const Data&) const        |
-|       : Point                                                     |
-|   + getClusters() const : const vector<Cluster>&                  |
-|   + getLabels() const : const vector<int>&                        |
-|   + evaluate(data : const Data&) const : double                   |
-+-------------------------------------------------------------------+
-                                  |
-                                  | contains (composition: vector<Cluster>)
-                                  v
-+-------------------------------------------------------------------+
-|                          struct Cluster                           |
-+-------------------------------------------------------------------+
-| public:                                                           |
-|   + centroid     : Point                                          |
-|   + pointIndices : vector<size_t>                                 |
-+-------------------------------------------------------------------+
-```
-
----
 
 ## AI Use
 - **Tool:** Gemini and Claude
+**Purpose** To help us identify where the inheritance and polymorphism is in our codes since it was not as direct forwaed as the one we studied in class.
