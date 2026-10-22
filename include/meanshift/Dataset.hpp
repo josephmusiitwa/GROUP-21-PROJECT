@@ -13,22 +13,21 @@ using Data = vector<Point>;
 
 class Dataset {
 public:
-    Dataset();
+Dataset();
 
-    bool loadFromCSV(const string& filename, bool hasHeader = true);
-    const Data& getData() const;
+bool loadFromCSV(const string& filename, bool hasHeader = true);
+const Data& getData() const;
 
-    // Z-score normalization
-    void standardize();
+// Z-score normalization
+void standardize();
 
-    // Min-Max scaling to [0, 1]
-    void normalize();
+// Min-Max scaling to [0, 1]
+void normalize();
 
 private:
-    Data data_;
+Data data_;
 };
 
 } // namespace meanshift
 
 #endif // DATASET_HPP
-
