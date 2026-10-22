@@ -1,21 +1,44 @@
-cmake_minimum_required(VERSION 3.20)
-project(meanshift LANGUAGES CXX)
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+cmake_minimum_required(VERSION 3.15)
 
-file(GLOB LIB_SOURCES src/*.cpp)
-add_library(meanshift ${LIB_SOURCES})
-target_include_directories(meanshift PUBLIC include third_party)
+# 
+project(MeanShift
+    VERSION 1.0.0
+    LANGUAGES CXX
+)
+
+add_library(meanshift STATIC
+    src/Dataset.cpp
+    src/MeanShift.cpp
+)
+
+target_include_directories(meanshift
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:include>
+)
+
+target_compile_features(meanshift PUBLIC cxx_std_23)
+
+install(
+    TARGETS meanshift
+    EXPORT MeanShiftTargets
+    ARCHIVE DESTINATION lib
+)
+
+install(
+    DIRECTORY include/meanshift
+    DESTINATION include
+)
+
+install(
+    EXPORT MeanShiftTargets
+    FILE MeanShiftTargets.cmake
+    NAMESPACE MeanShift::
+    DESTINATION lib/cmake/MeanShift
+)
+
+# Add Examples and Tests from subdirectories
+add_subdirectory(examples)
 
 enable_testing()
-file(GLOB TEST_SOURCES tests/*.cpp)
-add_executable(meanshift_tests ${TEST_SOURCES})
-target_link_libraries(meanshift_tests PRIVATE meanshift)
-add_test(NAME all_tests COMMAND meanshift_tests)
-
-file(GLOB EXAMPLE_SOURCES examples/*.cpp)
-foreach(example_src ${EXAMPLE_SOURCES})
-    get_filename_component(example_name ${example_src} NAME_WE)
-    add_executable(${example_name} ${example_src})
-    target_link_libraries(${example_name} PRIVATE meanshift)
-endforeach()
+add_subdirectory(tests)
