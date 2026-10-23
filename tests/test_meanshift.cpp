@@ -39,12 +39,41 @@ void testShiftPoint() {
     }
     cout << "testShiftPoint passed." << endl;
 }
+void testEstimateBandwidth() {
+    meanshift::MeanShift ms;
+    meanshift::Data data = {
+        {0.0, 0.0}, {0.1, 0.1}, {0.2, 0.2},
+        {10.0, 10.0}, {10.1, 10.1}, {10.2, 10.2}
+    };
+    ms.estimateBandwidth(data);
+    ms.fit(data);
+    if (ms.getClusters().size() != 2) throw runtime_error("testEstimateBandwidth failed");
+    cout << "testEstimateBandwidth passed." << endl;
+}
 
+void testGetLabels() {
+    meanshift::MeanShift ms(2.0, 1e-3, 100);
+    meanshift::Data data = {
+        {0.0, 0.0}, {0.1, 0.1}, {0.2, 0.2},
+        {10.0, 10.0}, {10.1, 10.1}, {10.2, 10.2}
+    };
+    ms.fit(data);
+    auto labels = ms.getLabels();
+    if (labels.size() != 6 ||
+        labels[0] != labels[1] || labels[1] != labels[2] ||
+        labels[3] != labels[4] || labels[4] != labels[5] ||
+        labels[0] == labels[3]) {
+        throw runtime_error("testGetLabels failed");
+    }
+    cout << "testGetLabels passed." << endl;
+}
 
 int main() {
 testEuclideanDistance();
 testMeanShiftClustering();
 testShiftPoint();
+ testEstimateBandwidth();
+    testGetLabels();
 cout << "All tests passed!" << endl;
 return 0;
 }
