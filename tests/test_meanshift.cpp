@@ -130,6 +130,28 @@ void testStandardize() {
     }
     cout << "testStandardize passed." << endl;
 }
+void testNormalize() {
+    const string tempFile = "test_temp_norm.csv";
+    ofstream out(tempFile);
+    out << "Feature1,Feature2\n";
+    out << "10.0,50.0\n";
+    out << "20.0,100.0\n";
+    out << "30.0,150.0\n";
+    out.close();
+
+    meanshift::Dataset dataset;
+    dataset.loadFromCSV(tempFile, true);
+    remove(tempFile.c_str());
+
+    dataset.normalize();
+    const auto& data = dataset.getData();
+    if (data.size() != 3 ||
+        abs(data[0][0] - 0.0) > 1e-6 || abs(data[1][0] - 0.5) > 1e-6 || abs(data[2][0] - 1.0) > 1e-6 ||
+        abs(data[0][1] - 0.0) > 1e-6 || abs(data[1][1] - 0.5) > 1e-6 || abs(data[2][1] - 1.0) > 1e-6) {
+        throw runtime_error("testNormalize failed");
+    }
+    cout << "testNormalize passed." << endl;
+}
 
 int main() {
 testEuclideanDistance();
@@ -141,7 +163,7 @@ testEvaluate();
 testEmptyData(); 
 testLoadFromCSV();
 testStandardize();   
-    
+testNormalize();
 cout << "All tests passed!" << endl;
 return 0;
 }
