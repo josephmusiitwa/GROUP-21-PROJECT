@@ -67,6 +67,17 @@ void testGetLabels() {
     }
     cout << "testGetLabels passed." << endl;
 }
+void testEvaluate() {
+    meanshift::MeanShift ms(2.0, 1e-3, 100);
+    meanshift::Data data = {
+        {0.0, 0.0}, {0.1, 0.1}, {0.2, 0.2},
+        {10.0, 10.0}, {10.1, 10.1}, {10.2, 10.2}
+    };
+    ms.fit(data);
+    double score = ms.evaluate(data);
+    if (score <= 0.0 || score > 0.5) throw runtime_error("testEvaluate failed");
+    cout << "testEvaluate passed." << endl;
+}
 
 int main() {
 testEuclideanDistance();
