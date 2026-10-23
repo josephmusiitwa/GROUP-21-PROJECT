@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 #include <iomanip>
-
+#include <fstream>
 using namespace std;
 
 void testEuclideanDistance() {
