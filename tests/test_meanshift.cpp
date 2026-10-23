@@ -26,10 +26,21 @@ auto clusters = ms.getClusters();
 if (clusters.size() != 2) throw runtime_error("testMeanShiftClustering failed");
 cout << "testMeanShiftClustering passed." << endl;
 }
+void testGaussianKernel() {
+    meanshift::MeanShift ms(2.0, 1e-3, 100);
+    double w0 = ms.gaussianKernel(0.0);
+    double w2 = ms.gaussianKernel(2.0);
+    if (abs(w0 - 1.0) > 1e-6 || abs(w2 - exp(-0.5)) > 1e-6) {
+        throw runtime_error("testGaussianKernel failed");
+    }
+    cout << "testGaussianKernel passed." << endl;
+}
 
 int main() {
 testEuclideanDistance();
 testMeanShiftClustering();
+testGaussianKernel();
+
 cout << "All tests passed!" << endl;
 return 0;
 }
