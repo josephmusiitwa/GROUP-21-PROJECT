@@ -87,6 +87,49 @@ void testEmptyData() {
     }
     cout << "testEmptyData passed." << endl;
 }
+void testLoadFromCSV() {
+    const string tempFile = "test_temp_data.csv";
+    ofstream out(tempFile);
+    out << "Feature1,Feature2\n";
+    out << "1.0,2.0\n";
+    out << "3.0,4.0\n";
+    out.close();
+
+    meanshift::Dataset dataset;
+    bool loaded = dataset.loadFromCSV(tempFile, true);
+    remove(tempFile.c_str());
+
+    const auto& data = dataset.getData();
+    if (!loaded || data.size() != 2 || data[0][0] != 1.0 || data[1][1] != 4.0) {
+        throw runtime_error("testLoadFromCSV failed");
+    }
+    if (dataset.loadFromCSV("non_existent_file.csv", true)) {
+        throw runtime_error("testLoadFromCSV failed");
+    }
+    cout << "testLoadFromCSV passed." << endl;
+}
+
+void testStandardize() {
+    const string tempFile = "test_temp_std.csv";
+    ofstream out(tempFile);
+    out << "Feature1,Feature2\n";
+    out << "1.0,10.0\n";
+    out << "3.0,30.0\n";
+    out.close();
+
+    meanshift::Dataset dataset;
+    dataset.loadFromCSV(tempFile, true);
+    remove(tempFile.c_str());
+
+    dataset.standardize();
+    const auto& data = dataset.getData();
+    if (data.size() != 2 ||
+        abs(data[0][0] - (-1.0)) > 1e-6 || abs(data[1][0] - 1.0) > 1e-6 ||
+        abs(data[0][1] - (-1.0)) > 1e-6 || abs(data[1][1] - 1.0) > 1e-6) {
+        throw runtime_error("testStandardize failed");
+    }
+    cout << "testStandardize passed." << endl;
+}
 
 int main() {
 testEuclideanDistance();
@@ -95,7 +138,9 @@ testShiftPoint();
 testEstimateBandwidth();
 testGetLabels();
 testEvaluate();
-testEmptyData();    
+testEmptyData(); 
+testLoadFromCSV();
+testStandardize();   
     
 cout << "All tests passed!" << endl;
 return 0;
