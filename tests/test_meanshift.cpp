@@ -78,13 +78,25 @@ void testEvaluate() {
     if (score <= 0.0 || score > 0.5) throw runtime_error("testEvaluate failed");
     cout << "testEvaluate passed." << endl;
 }
+void testEmptyData() {
+    meanshift::MeanShift ms;
+    meanshift::Data emptyData;
+    ms.fit(emptyData);
+    if (!ms.getClusters().empty() || !ms.getLabels().empty() || ms.evaluate(emptyData) != 0.0) {
+        throw runtime_error("testEmptyData failed");
+    }
+    cout << "testEmptyData passed." << endl;
+}
 
 int main() {
 testEuclideanDistance();
 testMeanShiftClustering();
 testShiftPoint();
- testEstimateBandwidth();
-    testGetLabels();
+testEstimateBandwidth();
+testGetLabels();
+testEvaluate();
+testEmptyData();    
+    
 cout << "All tests passed!" << endl;
 return 0;
 }
