@@ -408,4 +408,3 @@ The following references provide background for the concepts discussed in this r
 
 4. Lloyd, S. P. (1982). "Least Squares Quantization in PCM." *IEEE Transactions on Information Theory*, 28(2), 129-137. https://doi.org/10.1109/TIT.1982.1056489
 
-5. Group 21 project materials supplied by the author: project title and role description; declarations and implementations for `getClusters()`, `getLabels()`, and `evaluate()`; descriptions of `testGetLabels()`, `testEvaluate()`, and `testEmptyData()`; the `example3.cpp` workflow; Git collaboration notes; and AI use declaration. Repository paths and test details in this report reflect the supplied description and were not independently inspected for this document.
