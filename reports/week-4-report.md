@@ -88,17 +88,8 @@ The name column is skipped and the students are clustered by Math and Science sc
 ```
 
 ### Testing by students outside the group
-Following the project instructions, we shared the repository with three students from other groups. They built it on their own computers and ran the 10 unit tests.
-
-| Tester | Computer | Result |
-| :--- | :--- | :--- |
-| A (Group 14) | Windows 11 | Built without errors. 10 of 10 tests passed. Ran `example1` on `my_data.csv` and `students.csv`, `example2`, and `example3`. |
-| B (Group 19) | Ubuntu 24.04 (WSL2) | Build failed because of the file name case. After the fix, 10 of 10 tests passed. |
-| C (Group 9) | Windows 10 | Built without errors. 10 of 10 tests passed. `example3` gave an error message for a wrong file name and worked on `finance.csv`. |
-
-Changes made after testing: fixed the file name in `CMakeLists.txt` and added `example3` to `examples/CMakeLists.txt`.
-
----
+Following the project instructions, we are sharing the project with  students from other groups to build and test the project.
+The results are to be documented in detail in the final report which is in progress.
 
 ## 5. AI Use (Weeks 1–4)
 
