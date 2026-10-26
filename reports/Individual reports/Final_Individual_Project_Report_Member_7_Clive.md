@@ -386,40 +386,6 @@ Reason: To support the implementation of a compactness metric with `O(N * D)` ti
 
 This declaration describes the AI use reported in the supplied material. It does not imply that the implementation or its test results were independently verified by an AI tool.
 
-## 11. Viva Preparation Questions and Answers
-
-### Question 1: Why does `evaluate()` calculate the distance from `data[idx]` to `cluster.centroid` instead of from `shiftedPoints[idx]` to `cluster.centroid`?
-
-**Answer:** The purpose of the metric is to measure how far the original observations lie from their assigned cluster centroids. Mean Shift moves candidate points during its search for dense regions. Measuring the final shifted positions against their converged centres would tend to produce very small distances because those positions have already moved toward the centres. Using `data[idx]` evaluates the compactness of the original observations in feature space.
-
-### Question 2: What is the time complexity of `MeanShift::evaluate(data)`?
-
-**Answer:** If every data point appears exactly once in the cluster membership lists, the inner loop performs `N` distance calculations in total. Each Euclidean distance calculation takes `O(D)` time for `D` features. The overall time complexity is therefore `O(N * D)`, or more explicitly `O(K + N * D)` when the overhead of iterating over the `K` clusters is included.
-
-### Question 3: Why do the getter methods return constant references?
-
-**Answer:** Returning a constant reference avoids copying the full vector and prevents callers from modifying the returned vector through the accessor. This is efficient for read-only inspection of clusters and labels.
-
-### Question 4: Why is `evaluate()` marked `const`?
-
-**Answer:** The method reads the model's stored clusters and calculates a score without intending to change the model's state. The trailing `const` communicates this contract to the compiler and to users of the class.
-
-### Question 5: What does a low cohesion score mean?
-
-**Answer:** A low score means the original data points are, on average, close to the centroids of their assigned clusters. It indicates compactness under the chosen feature representation. It does not, by itself, prove that the clusters are well separated or meaningful.
-
-### Question 6: Why is the empty-data check important?
-
-**Answer:** The final expression divides the accumulated distance by `data.size()`. If the dataset is empty, that denominator is zero. The guard returns `0.0` before the division and avoids this problem.
-
-### Question 7: Does the cohesion score calculate variance?
-
-**Answer:** No. Although the implementation uses the variable name `totalVariance`, the code sums Euclidean distances and divides by the number of data points. It calculates a mean intra-cluster distance, not statistical variance, which would involve squared deviations from a mean.
-
-### Question 8: What assumptions does `evaluate()` make about its input?
-
-**Answer:** It assumes the supplied data corresponds to the data used to fit the model, the stored point indices are valid for that data, and the cluster membership lists correctly represent the assignments. The supplied implementation does not explicitly validate these assumptions.
-
 ## 12. Conclusion
 
 My contribution to the Group 21 Mean Shift clustering library focuses on retrieving and evaluating clustering results and demonstrating their use through an interactive C++ program. The `getClusters()` and `getLabels()` methods provide efficient, read-only access to the results stored by the model. The `evaluate()` method calculates the mean Euclidean distance between original data points and their assigned cluster centroids, offering a lightweight measure of within-cluster compactness.
