@@ -263,31 +263,7 @@ During Week 2, multiple pull requests modified the `private:` section of `MeanSh
 
 The project report records the use of Gemini and Claude to verify the Gaussian-kernel equation and review C++ best practices relating to `static` and `const` member functions.
 
-## 6. Viva Preparation
-
-**Q1. Why is `euclideanDistance()` static while `gaussianKernel()` is a `const` member function?**
-
-`euclideanDistance()` only requires the two points passed to it, so it does not need an object instance and can be declared `static`. `gaussianKernel()` reads the object's `bandwidth_` member, so it must be a non-static member function. It is marked `const` because it does not modify the object.
-
-**Q2. What is the purpose of `bandwidth_` in the Gaussian kernel?**
-
-The bandwidth controls how quickly the kernel weight decreases as distance increases. With a smaller positive bandwidth, the weight drops more sharply. With a larger positive bandwidth, points at greater distances retain more weight and can have a wider influence.
-
-**Q3. What does the Euclidean-distance function calculate?**
-
-It calculates the straight-line distance between two points by summing the squared differences between corresponding coordinates and taking the square root of the sum.
-
-**Q4. Why store point indices in `Cluster` instead of copying the points?**
-
-Storing indices avoids duplicating the original point data and preserves the mapping between cluster membership and the original dataset.
-
-**Q5. What does the command-line example demonstrate?**
-
-It demonstrates how to load a CSV dataset, configure and run the Mean Shift model, display cluster summaries and an evaluation score, and export point labels to a CSV file.
-
----
-
-## 7. Conclusion
+## 6. Conclusion
 
 My contribution to the Group 21 project covered the `Cluster` structure and `MeanShift` class interface, the Euclidean-distance and Gaussian-kernel functions, and a command-line CSV example. Together, these components provide core mathematical functionality and a practical demonstration of how the library can be used with external data.
 
