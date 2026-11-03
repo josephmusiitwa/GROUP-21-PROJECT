@@ -252,3 +252,31 @@ AI was used as a helper for learning and checking. It was not used to write the 
 | 3 | Gemini, Claude | Finding where inheritance and polymorphism appear in our code | Our code had no direct inheritance like the class examples |
 | 4 | Gemini, ChatGPT, Claude | Checking CMake settings and test coverage | To check the build and tests before submission |
 | Final | Claude | Drafting this final report and the `README.md` from the repository files, reports and git history | To save time; the group checked every number and statement against the repository and supplied the external-testing results |
+Per-member declarations are in each individual report:
+
+| Member | Tools | Purpose |
+| :--- | :--- | :--- |
+| Happy | Gemini, ChatGPT | Z-score versus Min-Max scaling, zero-variance columns |
+| Jonathan | Gemini, ChatGPT | How the kernel-weighted average relates to density gradient ascent |
+| Joseph | Gemini | Modern CMake target export syntax; designing self-contained tests |
+| Desire | Gemini, ChatGPT | Why points are merged within `bandwidth / 2` |
+| Nazarene | Gemini, ChatGPT | Convergence stopping rules and per-point caching |
+| Kizza | Gemini, ChatGPT | `stringstream` splitting and `std::stod` exceptions |
+| Clive | Gemini, ChatGPT | Cohesion metric and silhouette score |
+| Mark | Gemini, Claude | Inheritance and polymorphism in our code, before drawing diagrams |
+| Simon | Gemini, Claude | Checking the Gaussian kernel formula; C++ best practice for `static` and `const` functions |
+
+## 13. How to build and test (clean machine)
+
+Requirements: Git, CMake 3.20 or newer, and a C++ compiler that supports C++23 (we checked with GCC 13).
+
+```text
+git clone https://github.com/josephmusiitwa/GROUP-21-PROJECT.git
+cd GROUP-21-PROJECT
+cmake -S . -B build
+cmake --build build
+cd build && ctest --output-on-failure
+cd ..
+./build/examples/example2
+./build/examples/example1 data/input/my_data.csv data/output/results.csv
+```
