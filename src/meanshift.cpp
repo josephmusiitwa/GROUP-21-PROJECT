@@ -12,7 +12,7 @@ MeanShift::MeanShift(double bandwidth, double epsilon, int maxIterations)
 double MeanShift::euclideanDistance(const Point& a, const Point& b) {
 double sum = 0.0;
 for (size_t i = 0; i < a.size(); ++i) {
-sum += (a[i] - b[i]) * (a[i] - b[i]);
+sum += (a[i] - b[i]) * (a[i] - b[i]);   //squared difference per column
 }
 return sqrt(sum);
 }
@@ -25,7 +25,7 @@ void MeanShift::estimateBandwidth(const Data& data) {
 if (data.empty()) return;
 
 // Sample up to 500 points to avoid O(N^2) pairwise distance cost on large datasets
-size_t numSamples = min<size_t>(500, data.size());
+size_t numSamples = min<size_t>(500, data.size());  // use at most 500 rows
 double totalDist = 0;
 int count = 0;
 for (size_t i = 0; i < numSamples; ++i) {
