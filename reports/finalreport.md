@@ -34,3 +34,36 @@ Our task was to build this algorithm as a **reusable C++ library**, not a one-of
 
 Small bandwidth gives many small clusters. Large bandwidth gives a few big ones. If the user does not give a bandwidth, the library estimates one from the data.
 
+
+## 4. Library design
+
+### 4.1 Structure
+
+```
+GROUP-21-PROJECT/
+├── CMakeLists.txt            builds the static library, examples and tests
+├── include/meanshift/
+│   ├── Dataset.hpp           Dataset class: load and scale data
+│   └── MeanShift.hpp         MeanShift class and Cluster struct
+├── src/
+│   ├── Dataset.cpp
+│   └── meanshift.cpp
+├── tests/test_meanshift.cpp  10 unit tests, run with ctest
+├── examples/                 example1, example2, example3
+├── data/input/               5 sample CSV files
+├── data/output/              results written here
+└── reports/                  weekly reports, individual reports, this report
+```
+
+All code is inside `namespace meanshift`. Two type names are used everywhere: `Point` (a `vector<double>`) and `Data` (a `vector<Point>`).
+
+### 4.2 The classes 
+
+**Class 1: `Dataset`**
+
+`meanshift::Dataset` (`Dataset.hpp`, `Dataset.cpp`). 
+To keep reading and preparing data in one place, separate from the clustering. 
+It holds one member: `data_`, all the points read from the CSV file. 
+Functions:`loadFromCSV()` fills it. `standardize()` and `normalize()` rescale it. `getData()` lets others read it. 
+`data_` is private so nothing outside the class can change the points by accident. The functions are public because they are how users work with the class. `getData()` returns a `const` reference, so callers can read but not change the data. 
+Usage: create a `Dataset`, call `loadFromCSV()`, optionally scale, then pass `getData()` to `MeanShift`. 
