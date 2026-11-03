@@ -1,31 +1,32 @@
-#ifndef DATASET_HPP
-#define DATASET_HPP
+#ifndef DATASET_HPP //header guard start
+#define DATASET_HPP //header guard definition
 
 #include <vector>
 #include <string>
 
 using namespace std;
-
+//custom namespace 'meanshift'
 namespace meanshift {
 
-using Point = vector<double>;
-using Data = vector<Point>;
+using Point = vector<double>; //Point to represent a data point with multiple numerical features
+using Data = vector<Point>;  // Data to represnt multiple data points
 
 class Dataset {
 public:
-Dataset();
+Dataset(); //constructor
 
+//function to load data from a CSV file
 bool loadFromCSV(const string& filename, bool hasHeader = true);
+
+//function to access the dataset without modifying it
 const Data& getData() const;
 
-// Z-score normalization
-void standardize();
+void standardize(); // Z-score normalization
 
-// Min-Max scaling to [0, 1]
-void normalize();
+void normalize(); // Min-Max scaling to [0, 1]
 
 private:
-Data data_;
+Data data_; //stores the dataset
 };
 
 } // namespace meanshift
