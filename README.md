@@ -208,8 +208,7 @@ More detail is in `reports/Individual reports/`.
 
 ## 12. How we collaborated
 
-We were 9 members who had never worked on a shared code project before. Each person took one function or file, worked on their own branch, and opened a pull request on GitHub. A different member reviewed and merged it. We wrote a short report every week in `reports/`. The Git history shows every member's commits.
-
+We were 9 members who had never worked on a shared code project before. Each person took one function or file, worked on their own branch, and opened a pull request on GitHub. A different member reviewed and merged it. We wrote a short report every week in `reports/`. 
 ## AI use
 
-AI tools (Gemini, ChatGPT and Claude) were used for learning and checking, and this README was drafted with Claude and checked by the group. The full declaration, week by week, is in `reports/final-report.md` (Section 12)
+AI tools (Gemini, ChatGPT and Claude) were used for learning and checking this README.
