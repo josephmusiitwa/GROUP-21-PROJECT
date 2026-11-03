@@ -1,8 +1,9 @@
 #ifndef MEANSHIFT_HPP
 #define MEANSHIFT_HPP
-
+// for point and data
 #include "meanshift/Dataset.hpp"
 #include <vector>
+//for size_t
 #include <cstddef>
 
 using namespace std;
@@ -10,7 +11,9 @@ using namespace std;
 namespace meanshift {
 
 struct Cluster {
+//the centre (hilltop) of this cluster
 Point centroid;
+//which rows of the data belong to it
 vector<size_t> pointIndices;
 };
 
