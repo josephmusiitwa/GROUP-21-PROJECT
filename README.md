@@ -59,3 +59,51 @@ GROUP-21-PROJECT/
 
 There are no other dependencies. The library uses only the C++ standard library.
 
+## 6. How to build
+
+```
+git clone https://github.com/josephmusiitwa/GROUP-21-PROJECT.git
+cd GROUP-21-PROJECT
+cmake -S . -B build
+cmake --build build
+```
+
+This creates the library `libmeanshift.a` (or `meanshift.lib` on Windows), the three example programs and the test program inside the `build` folder.
+
+## 7. How to use the library
+
+```cpp
+#include "meanshift/Dataset.hpp"
+#include "meanshift/MeanShift.hpp"
+#include <iostream>
+
+int main() {
+    meanshift::Dataset dataset;
+    if (!dataset.loadFromCSV("data/input/my_data.csv")) {   // false if the file cannot be opened
+        return 1;
+    }
+    // dataset.standardize();   // optional: Z-score scaling
+    // dataset.normalize();     // optional: Min-Max scaling
+
+    meanshift::MeanShift ms(2.0, 1e-3, 300);   // bandwidth, epsilon, max iterations
+    ms.fit(dataset.getData());
+
+    for (const auto& cluster : ms.getClusters()) {
+        std::cout << "Cluster with " << cluster.pointIndices.size() << " points\n";
+    }
+    std::cout << "Score: " << ms.evaluate(dataset.getData()) << "\n";
+}
+```
+
+**What the settings mean:**
+
+- **bandwidth**: how far a point "looks" for neighbours. Small values give many small clusters, large values give a few big ones. If you pass `-1` (the default), the library estimates it.
+- **epsilon**: a point stops moving when its step is smaller than this.
+- **max iterations**: the most steps a point may take.
+
+**After `fit()`:**
+
+- `getClusters()` gives a list of `Cluster`, each with a `centroid` (the centre) and `pointIndices` (which rows belong to it).
+- `getLabels()` gives one cluster number per input row.
+- `evaluate()` gives the average distance from each point to its centre. Lower means tighter clusters.
+
