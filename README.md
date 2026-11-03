@@ -54,7 +54,7 @@ GROUP-21-PROJECT/
 ## 5. Requirements
 
 - Git
-- CMake 3.20 or newer
+- CMake 3.15 or newer
 - A C++ compiler that supports C++23 (we checked with GCC 13)
 
 There are no other dependencies. The library uses only the C++ standard library.
