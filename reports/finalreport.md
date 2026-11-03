@@ -98,3 +98,157 @@ This is a plain struct with two public members, `centroid` (a `Point`) and `poin
 7. **`evaluate()` returns the mean distance from each point to its centroid:** It is quick to compute and easy to explain. Lower means tighter clusters. 
 8. **`loadFromCSV()` skips the header, empty lines and values that are not numbers:** Lets us use files with name or category columns (for example `students.csv`) without extra code. 
 9. **Static library `libmeanshift.a` with `install()` rules:** Other CMake projects can use it as `MeanShift::meanshift`. 
+## 5. Main functionality
+
+| Feature | Where |
+| :--- | :--- |
+| Load CSV data (with or without header) | `Dataset::loadFromCSV` |
+| Z-score scaling (mean 0, standard deviation 1) | `Dataset::standardize` |
+| Min-Max scaling (0 to 1) | `Dataset::normalize` |
+| Distance between two points | `MeanShift::euclideanDistance` |
+| Gaussian kernel weight | `MeanShift::gaussianKernel` |
+| Automatic bandwidth | `MeanShift::estimateBandwidth` |
+| One mean shift step | `MeanShift::shiftPoint` |
+| Full clustering | `MeanShift::fit` |
+| Read clusters and labels | `getClusters`, `getLabels` |
+| Quality score | `MeanShift::evaluate` |
+
+Minimal use:
+
+```cpp
+#include "meanshift/Dataset.hpp"
+#include "meanshift/MeanShift.hpp"
+
+meanshift::Dataset ds;
+ds.loadFromCSV("data/input/my_data.csv");   // returns false if the file cannot be opened
+meanshift::MeanShift ms(2.0, 1e-3, 300);    // bandwidth, epsilon, max iterations
+ms.fit(ds.getData());
+for (const auto& c : ms.getClusters()) { /* c.centroid, c.pointIndices */ }
+```
+
+## 6. Demonstration (real output)
+
+Output below was produced by building the repository and running the programs.
+
+**example2** (9 points written in the code, three groups):
+```text
+Number of clusters found: 3
+Cluster 0 centroid: (1.50006, 1.35186) with 3 points.
+Cluster 1 centroid: (8.47972, 8.33061) with 3 points.
+Cluster 2 centroid: (1.52013, 8.30793) with 3 points.
+Clustering evaluation score (cohesion): 0.622962
+```
+
+**example1** on each sample file (`./build/examples/example1 data/input/<file>.csv data/output/results.csv`):
+
+| File | Clusters | Points per cluster | Score |
+| :--- | :---: | :--- | :---: |
+| `my_data.csv` | 3 | 10, 10, 10 | 0.259014 |
+| `biology_data.csv` | 3 | 10, 10, 10 | 0.259014 |
+| `finance.csv` | 3 | 10, 10, 10 | 0.259014 |
+| `students.csv` (Math, Science) | 4 | 4, 3, 2, 3 | 1.97891 |
+| `text_data.csv` (text columns skipped) | 3 | 3, 3, 3 | 0.101065 |
+
+`example3` does the same as `example1`, but asks the user to type the input and output file paths.
+
+**Note:** `my_data.csv`, `biology_data.csv` and `finance.csv` give identical results because they contain the same 30 points. They are separate files to show that the library works on different file names, not different data.
+
+## 7. Testing
+
+### 7.1 Approach
+We started with 2 tests in Week 3 and grew to 10 in Week 4. Tests are in `tests/test_meanshift.cpp` and run through CTest. For tests that need files create a small temporary CSV, use it, and delete it, so they pass from any folder.
+
+### 7.2 Unit tests (all 10 pass)
+
+| # | Test | Type | What it checks |
+| :---: | :--- | :--- | :--- |
+| 1 | `testEuclideanDistance` | Normal | Distance (0,0) to (3,4) is 5 |
+| 2 | `testMeanShiftClustering` | Normal | 6 points in 2 far-apart groups give 2 clusters |
+| 3 | `testShiftPoint` | Normal | A point halfway between two points stays in the middle |
+| 4 | `testEstimateBandwidth` | Normal | Automatic bandwidth still finds 2 clusters |
+| 5 | `testGetLabels` | Normal | 6 labels; same group has the same label, different groups differ |
+| 6 | `testEvaluate` | Normal | Score is above 0 and at most 0.5 on tight clusters |
+| 7 | `testEmptyData` | Edge case | Empty data gives no clusters and score 0 |
+| 8 | `testLoadFromCSV` | Normal and invalid | A valid file loads; a missing file returns `false` |
+| 9 | `testStandardize` | Normal | Values become -1 and +1 |
+| 10 | `testNormalize` | Normal | Values become 0, 0.5 and 1 |
+
+```text
+1/1 Test #1: MeanShiftTests ...................   Passed
+100% tests passed out of 1
+```
+
+### 7.3 Testing by students outside the group
+
+As the project instructions require, we gave the project to three students from other groups. Each one followed only the steps in the README on their own computer, with no help from us.
+
+| Tester | Computer | Built? | Tests passed? | Problems they found | What we did |
+| :--- | :--- | :---: | :---: | :--- | :--- |
+| John | Windows | Yes | No problems reported | None | None needed |
+| Chris | Windows | Yes | No problems reported | None | None needed |
+| Peter | Linux | Yes | No problems reported | None | None needed |
+
+All three testers built the project and ran the tests by following the README, and none reported any problem. Together they covered both Windows and Linux.
+
+Separately from these testers, we found that building on a case-sensitive system (Linux) can fail if `CMakeLists.txt` names `src/MeanShift.cpp` while the file is `src/meanshift.cpp`. Our own Windows computers hid this. The file name in `CMakeLists.txt` is now `src/meanshift.cpp` (see Section 8).
+
+## 8. Challenges and how we solved them
+
+| Challenge | What we did |
+| :--- | :--- |
+| Nobody knew machine learning at the start. Words like "kernel" and "bandwidth" were new. | Week 1 went on learning. We used AI tools as tutors, then wrote the algorithm in plain steps (Section 3) so everyone could follow it. |
+| Nobody had used Git as a team. | Members worked on their own branches and opened pull requests (numbered up to #46). The repository has 130 commits. |
+| Slow network sometimes delayed GitHub's compare and pull request pages. | Work went on normally once everyone was used to the steps. |
+| Hard to see how our classes use inheritance and polymorphism. | We found where they appear (standard library, default arguments, templates) and drew diagrams. |
+| `CMakeLists.txt` named `src/MeanShift.cpp` but the file is `src/meanshift.cpp`. This works on Windows and fails on Linux. | Found when building on a Linux system. Fixed by using `src/meanshift.cpp` in `CMakeLists.txt`. |
+| Tests that read `data/input/` failed when run from another folder. | Those tests now create temporary files. |
+| Running every point against every other point is slow. | Added the per-point stop flag and the 500-point limit on bandwidth estimation. |
+
+## 9. Individual contributions
+
+Commit counts are from `git log` (each person's different Git names and emails added together). Detailed write-ups are in `reports/Individual reports/`.
+
+| Member | Commits | Main contribution |
+| :--- | :---: | :--- |
+| Musiitwa Joseph | 29 | Repository set-up, root `CMakeLists.txt` (library, install rules, examples, tests), `.gitignore`, test file set-up and first tests, merging pull requests, aligning code style, coordinating integration and testing |
+| Muhindo Nazarene | 9 | First stage of `fit()` (bandwidth trigger, repeated shifting, `stopMoving`), `MeanShift.hpp` declarations, Week 2 report, a test function, `finance.csv` |
+| Mark Jordan | 13 | Initial repository skeleton, `example2.cpp` (with Jonathan), `my_data.csv`, OOP diagrams, reviewing and merging pull requests, Week 4 report |
+| Atuzarirwe Happy | 8 | `standardize()` scaling step, `normalize()`, `testLoadFromCSV`, `testStandardize`, `students.csv` |
+| Kizza Johnson | 5 | `Dataset` class, `loadFromCSV`, `getData`, mean and standard deviation in `standardize`, `testEstimateBandwidth`, `testGetLabels`, `biology_data.csv` |
+| Atugonza Simon | 8 | `euclideanDistance`, `example1.cpp`, CSV data files including `text_data.csv` |
+| Muzaki Desire | 6 | Cluster formation stage of `fit()` (merging within `bandwidth/2`), `testNormalize`, interactive `example3.cpp` |
+| Clive | 4 | `getClusters`, `getLabels`, `evaluate`, `testEvaluate`, `testEmptyData` |
+| Sserunkuma Jonathan | 4 | `estimateBandwidth`, `shiftPoint`, `example2.cpp` (with Mark) |
+
+**How we worked together:** One person (or a pair) per function, one branch per task, a pull request for every change, and a different member reviewing and merging. Weekly reports were written from the commit history.
+
+## 10. Limitations 
+
+1. **Speed.** Each step compares a point with every other point, so running time grows quickly with the number of points. It is fine for hundreds of points, not for very large data.
+2. **One kernel.** Only the Gaussian kernel is available.
+3. **Bandwidth guess is simple.** It is half the average distance between the first (up to) 500 points. A hand-chosen bandwidth is often better.
+4. **Quality score is simple.** `evaluate()` measures tightness only. It does not measure how well separated the clusters are.
+5. **CSV loading is forgiving, not strict.** Values that are not numbers are skipped silently. If a row has fewer numbers than the first row, scaling or distance calculation can read outside the row. The library does not check that all points have the same number of features.
+6. **Output header is fixed.** The examples write the header `Feature1,Feature2,Cluster_ID`, so the header is wrong for files with a different number of features.
+7. **Example 3.** It reads paths with `cin >>`, so paths with spaces do not work.
+8. **Compiler.** `CMakeLists.txt` asks for C++23, so an older compiler will not build it.
+
+## 11. Lessons learned
+
+1. Keeping data loading (`Dataset`) separate from the algorithm (`MeanShift`) made testing and teamwork much easier.
+2. Decimal numbers should not be compared with `==`, so we merge points that are close enough.
+3. Testing on another computer found a bug that our own Windows computers hid (file name capital letters).
+4. Most of our tests were added in Week 4 (2 tests in Week 3, 10 in Week 4). Writing each test together with its function would have caught problems earlier.
+5. AI was useful for learning and checking, but we only kept what we understood and could explain.
+
+## 12. AI-use declaration
+
+AI was used as a helper for learning and checking. It was not used to write the whole project. Members reviewed and understood all code, tests and reports they contributed.
+
+| Week | Tool | Purpose | Reason |
+| :--- | :--- | :--- | :--- |
+| 1 | Gemini, ChatGPT, Claude, Google Search | Explaining clustering, Gaussian kernels and bandwidth; finding beginner resources | We were new to machine learning |
+| 2 | Gemini, ChatGPT, Claude | A little help with header/source layout and CSV reading | Minor help; we already knew what to do |
+| 3 | Gemini, Claude | Finding where inheritance and polymorphism appear in our code | Our code had no direct inheritance like the class examples |
+| 4 | Gemini, ChatGPT, Claude | Checking CMake settings and test coverage | To check the build and tests before submission |
+| Final | Claude | Drafting this final report and the `README.md` from the repository files, reports and git history | To save time; the group checked every number and statement against the repository and supplied the external-testing results |
