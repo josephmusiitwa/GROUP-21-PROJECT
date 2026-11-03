@@ -40,8 +40,9 @@ private:
 double bandwidth_;
 double epsilon_;
 int maxIterations_;
-
+// filled by fit()
 vector<Cluster> clusters_;
+//filled by fit(): cluster number for each row
 vector<int> labels_;
 };
 
