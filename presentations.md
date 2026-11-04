@@ -1,3 +1,4 @@
+GROUP-21-PROJECT MEANSHIFT CLUSTERING ALGORITHM PRESENTATION
 ### Presentation Sections
 1. [1. Project Overview & Repository Structure](#1-project-overview--repository-structure)
 2. [2. Design Decisions & OOP Principles](#2-design-decisions--oop-principles)
@@ -5,7 +6,7 @@
    - [3.1 Module A: Data Ingestion & Feature Scaling (`Dataset`)](#31-module-a-data-ingestion--feature-scaling-dataset)
    - [3.2 Module B: Mean Shift Clustering Engine (`MeanShift` & `Cluster`)](#32-module-b-mean-shift-clustering-engine-meanshift--cluster)
 4. [4. Individual Team Contributions](#4-individual-team-contributions)
-5. [5. Practical Demonstrations & Automated Testing Playbook](#5-practical-demonstrations--automated-testing-playbook)
+5. [5. Practical Demonstrations & Automated Testing ](#5-practical-demonstrations--automated-testing-)
 6. [6. Live Coding Walkthroughs](#6-live-coding-walkthroughs)
 
 ### Direct Repository File Links (Click to Open in VS Code)
