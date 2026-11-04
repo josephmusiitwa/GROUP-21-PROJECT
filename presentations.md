@@ -1,12 +1,3 @@
-# Group 21: Mean Shift Clustering Library in C++ (`meanshift`)
-
-**Course Project:** Machine Learning 13 — Design and Implementation of the Mean Shift Clustering Algorithm in C++  
-**Repository:** `GROUP-21-PROJECT` | **Language Standard:** C++23 | **Build System:** CMake & CTest
-
----
-
-## Quick Navigation Hub
-
 ### Presentation Sections
 1. [1. Project Overview & Repository Structure](#1-project-overview--repository-structure)
 2. [2. Design Decisions & OOP Principles](#2-design-decisions--oop-principles)
@@ -32,7 +23,7 @@
 
 ### 1.1 Problem Statement & Algorithmic Overview
 Unlike parametric clustering methods such as K-Means—which require the user to specify the number of clusters $K$ in advance and assume spherical cluster shapes—**Mean Shift** is a **non-parametric, mode-seeking clustering algorithm**.
-1. Each data point $x_i \in \mathbb{R}^D$ is treated as a particle ("walker") on an underlying kernel density surface controlled by a neighborhood radius (**bandwidth** $h$).
+1. Each data point  is treated as a particle ("walker") on an underlying kernel density surface controlled by a neighborhood radius (**bandwidth** $h$).
 2. At each step, every active point computes the **Gaussian kernel-weighted mean** of all dataset points around it and shifts toward the region of highest local density.
 3. Points stops moving once their step displacement drops below a convergence tolerance $\epsilon$ (`epsilon_`) or reaches `maxIterations_`.
 4. Converged points landing within `bandwidth / 2.0` of one another are merged into a single `Cluster` centroid, automatically discovering the number of clusters $K$ from the data geometry.
