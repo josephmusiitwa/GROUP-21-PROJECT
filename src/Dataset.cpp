@@ -1,44 +1,45 @@
 #include "meanshift/Dataset.hpp"
 #include <iostream>
 #include <fstream>
-#include <sstream>
+#include <sstream> // used to split each CSV line into individual tokens
 #include <cmath>
 
 using namespace std;
 
 namespace meanshift {
-
+// reading a CSV file into data_
 Dataset::Dataset() {}
 bool Dataset::loadFromCSV(const string& filename, bool hasHeader) {
-ifstream file(filename);
+ifstream file(filename); // open the file for reading
 if (!file.is_open()) {
 cerr << "Error: Cannot open file " << filename << endl;
 return false;
 }
 
-string line;
+string line; // string to store each line read from the file
 if (hasHeader) {
-getline(file, line);
+getline(file, line); // read the fist line and throw it away
 }
 
-data_.clear();
+data_.clear(); // remove previously loaded data
 while (getline(file, line)) {
-if (line.empty()) continue;
+if (line.empty()) continue; // skip blank lines
 
-stringstream ss(line);
+stringstream ss(line); //allow line to be split at commas
 string token;
 Point p;
+  // splitting the line at every comma
 while (getline(ss, token, ',')) {
 try {
-p.push_back(stod(token));
+p.push_back(stod(token)); // string to double conversion
 } catch (const exception& e) {
 }
 }
 if (!p.empty()) {
-data_.push_back(p);
+data_.push_back(p); //populating the values into data_
 }
 }
-return true;
+return true; //success
 }
 
 const Data& Dataset::getData() const {
