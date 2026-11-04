@@ -38,18 +38,29 @@ meanshift::Data data = {
 ms.fit(data);
  // Retrieve the clusters identified by the algorithm
 auto clusters = ms.getClusters(); 
-
+// Display the total number of clusters found
 cout << "Number of clusters found: " << clusters.size() << endl;
 
-int i = 0;
-for (const auto& c : clusters) {
-cout << "Cluster " << i++ << " centroid: (";
-for (size_t d = 0; d < c.centroid.size(); ++d) {
-cout << c.centroid[d] << (d == c.centroid.size() - 1 ? "" : ", ");
+// Initialize a counter for numbering the clusters
+  int i = 0;
+for (const auto& c : clusters) {   // Loop through each cluster found by MeanShift
+// Display the cluster number and its centroid
+  cout << "Cluster " << i++ << " centroid: (";
+   // Loop through each coordinate of the centroid
+  for (size_t d = 0; d < c.centroid.size(); ++d) {
+    // Print the coordinate
+    // Add a comma between coordinates, but not after the last one
+cout << c.centroid[d]
+     << (d == c.centroid.size() - 1 ? "" : ", ");
 }
-cout << ") with " << c.pointIndices.size() << " points." << endl;
+  // Display the number of points belonging to this cluster
+cout << ") with " << c.pointIndices.size() 
+                  << " points." << endl;
 }
 
+ // Evaluate the clustering using the evaluation function
+// This score measures how closely points are grouped
+// according to the implementation of evaluate() 
 cout << "Clustering evaluation score (cohesion): " << ms.evaluate(data) << endl;
 
 return 0;
