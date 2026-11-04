@@ -84,3 +84,20 @@ GROUP-21-PROJECT/
   * **Downstream Executables & CTest Integration (Lines 41–44):** Links `example1`, `example2`, `example3`, and `test_meanshift` via `target_link_libraries(<target> PRIVATE meanshift)`.
 
 [⬆ Back to Top](#quick-navigation-hub)
+
+
+## 2. Design Decisions & OOP Principles
+
+### 2.1 Core Engineering & Algorithmic Design Decisions
+
+| Design Decision | Implementation Location | Technical Justification |
+| :--- | :--- | :--- |
+| **1. Strict Header / Source Separation** | [`include/meanshift/`](./include/meanshift/) $\rightarrow$ [`src/`](./src/) | Decouples the public API contract from mathematical implementation details, enabling clean static library packaging (`libmeanshift.a`). |
+| **2. Decoupling `Dataset` from `MeanShift`** | [`Dataset.hpp`](./include/meanshift/Dataset.hpp) & [`MeanShift.hpp`](./include/meanshift/MeanShift.hpp) | `MeanShift::fit(const Data& data)` operates on the `Data` (`vector<vector<double>>`) type rather than `Dataset`. This allows clustering both CSV files ([`example1.cpp`](./examples/example1.cpp)) and in-memory vectors ([`example2.cpp`](./examples/example2.cpp)). |
+| **3. Feature Scaling Pipeline (`standardize` & `normalize`)** | [`src/Dataset.cpp`](./src/Dataset.cpp) (Lines 48–103) | Mean Shift uses isotropic Euclidean distance inside a single scalar bandwidth $h$. Feature scaling prevents large-magnitude columns from dominating small-magnitude columns. |
+| **4. Subsampled Bandwidth Estimation ($M \le 500$)** | [`src/meanshift.cpp`](./src/meanshift.cpp) (Lines 24–39) | Computing all pairwise distances costs $O(N^2)$. Capping the sample at `min<size_t>(500, data.size())` bounds estimation to at most $124,750$ pairs, running in milliseconds on large datasets. |
+| **5. Per-Point Freeze Mask (`stopMoving`)** | [`src/meanshift.cpp`](./src/meanshift.cpp) (Lines 73–91) | Each `shiftPoint()` call costs $O(N \cdot D)$. Freezing points as soon as their step size drops below `epsilon_` (`stopMoving[i] = true`) skips redundant kernel evaluations in later iterations. |
+| **6. Non-Mutating `fit(const Data&)` Execution** | [`src/meanshift.cpp`](./src/meanshift.cpp) (Line 72) | Copies input coordinates into a local working vector `vector<Point> shiftedPoints = data;` so the caller's original dataset is never mutated. |
+| **7. Radius-Based Mode Merging ($h / 2$)** | [`src/meanshift.cpp`](./src/meanshift.cpp) (Lines 98–124) | Converged floating-point trajectories around the same density peak differ by up to $\sim \epsilon$. Grouping points within `bandwidth_ / 2.0` merges numerical jitter without collapsing distinct peaks. |
+| **8. Fault-Tolerant Mixed-Type CSV Parser** | [`src/Dataset.cpp`](./src/Dataset.cpp) (Lines 12–42) | Skips optional headers, ignores blank lines, and wraps `std::stod(token)` in `try-catch` so mixed text/numeric datasets (like [`students.csv`](./data/input/students.csv)) automatically extract numeric columns without crashing. |
+| **9. $O(N \cdot D)$ Intra-Cluster Cohesion Metric** | [`src/meanshift.cpp`](./src/meanshift.cpp) (Lines 134–146) | Computes the mean Euclidean distance from each original point `data[idx]` to its assigned `cluster.centroid`, avoiding $O(N^2)$ pairwise Silhouette overhead. |
