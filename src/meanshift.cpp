@@ -87,20 +87,26 @@ for (size_t i = 0; i < p.size(); ++i) {
  shiftedP[i] = numerator[i] / denominator;
 }
 }
-
+ // Return the new position of the point
 return shiftedP;
 }
 
+// Main function that performs Mean Shift clustering
 void MeanShift::fit(const Data& data) {
-if (data.empty()) return;
+// Stop if the dataset contains no points
+ if (data.empty()) return;
 
+ // Estimate bandwidth if it has not been set properly
 if (bandwidth_ <= 0) {
 estimateBandwidth(data);
 }
-
+ 
+ // Initially, each point is at its original position
 vector<Point> shiftedPoints = data;
-vector<bool> stopMoving(data.size(), false);
+ // Track which points have stopped moving
+ vector<bool> stopMoving(data.size(), false);
 
+ // Repeat the shifting process up to maxIterations
 for (int iter = 0; iter < maxIterations_; ++iter) {
   //unused left over variable
 int maxDistMoved = 0;
