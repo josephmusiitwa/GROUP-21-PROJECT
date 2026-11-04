@@ -93,7 +93,7 @@ allStopped = false;
 }
 shiftedPoints[i] = newPoint;
 }
-
+//everyone settled: stop early
 if (allStopped) {
 break;
 }
