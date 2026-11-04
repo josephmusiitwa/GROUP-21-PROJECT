@@ -184,9 +184,9 @@ As the project instructions require, we gave the project to three students from 
 
 | Tester | Computer | Built? | Tests passed? | Problems they found | What we did |
 | :--- | :--- | :---: | :---: | :--- | :--- |
-| John | Windows | Yes | No problems reported | None | None needed |
-| Chris | Windows | Yes | No problems reported | None | None needed |
-| Peter | Linux | Yes | No problems reported | None | None needed |
+| Wilson | Windows | Yes | No problems reported | None | None needed |
+| Musiime | Windows | Yes | No problems reported | None | None needed |
+| Anslem | Linux | Yes | No problems reported | None | None needed |
 
 All three testers built the project and ran the tests by following the README, and none reported any problem. Together they covered both Windows and Linux.
 
