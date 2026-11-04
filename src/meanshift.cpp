@@ -73,12 +73,14 @@ vector<Point> shiftedPoints = data;
 vector<bool> stopMoving(data.size(), false);
 
 for (int iter = 0; iter < maxIterations_; ++iter) {
+  //unused left over variable
 int maxDistMoved = 0;
 bool allStopped = true;
 
 for (size_t i = 0; i < shiftedPoints.size(); ++i) {
+  // already settled: skip (saves time)
 if (stopMoving[i]) continue;
-
+//one step
 Point newPoint = shiftPoint(shiftedPoints[i], data);
 double dist = euclideanDistance(shiftedPoints[i], newPoint);
 
