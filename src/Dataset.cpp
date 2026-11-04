@@ -87,16 +87,16 @@ void Dataset::normalize() {
 if (data_.empty()) return;
 
 size_t numFeatures = data_[0].size();
-Point mins = data_[0];
-Point maxs = data_[0];
-
+Point mins = data_[0]; // initialised minimum value
+Point maxs = data_[0]; // initialised maximum value
+// iterate through the dataset and identify the minimum and maximum values
 for (const auto& point : data_) {
 for (size_t i = 0; i < numFeatures; ++i) {
 if (point[i] < mins[i]) mins[i] = point[i];
 if (point[i] > maxs[i]) maxs[i] = point[i];
 }
 }
-
+// normalise every value
 for (auto& point : data_) {
 for (size_t i = 0; i < numFeatures; ++i) {
 if (maxs[i] - mins[i] != 0) {
