@@ -100,4 +100,21 @@ GROUP-21-PROJECT/
 | **6. Non-Mutating `fit(const Data&)` Execution** | [`src/meanshift.cpp`](./src/meanshift.cpp) (Line 72) | Copies input coordinates into a local working vector `vector<Point> shiftedPoints = data;` so the caller's original dataset is never mutated. |
 | **7. Radius-Based Mode Merging ($h / 2$)** | [`src/meanshift.cpp`](./src/meanshift.cpp) (Lines 98–124) | Converged floating-point trajectories around the same density peak differ by up to $\sim \epsilon$. Grouping points within `bandwidth_ / 2.0` merges numerical jitter without collapsing distinct peaks. |
 | **8. Fault-Tolerant Mixed-Type CSV Parser** | [`src/Dataset.cpp`](./src/Dataset.cpp) (Lines 12–42) | Skips optional headers, ignores blank lines, and wraps `std::stod(token)` in `try-catch` so mixed text/numeric datasets (like [`students.csv`](./data/input/students.csv)) automatically extract numeric columns without crashing. |
-| **9. $O(N \cdot D)$ Intra-Cluster Cohesion Metric** | [`src/meanshift.cpp`](./src/meanshift.cpp) (Lines 134–146) | Computes the mean Euclidean distance from each original point `data[idx]` to its assigned `cluster.centroid`, avoiding $O(N^2)$ pairwise Silhouette overhead. |
+| **9. $O(N \cdot D)$ Intra-Cluster Cohesion Metric** | [`src/meanshift.cpp`](./src/meanshift.cpp) (Lines 134–146) | Computes the mean Euclidean distance from each original point `data[idx]` to its assigned `cluster.centroid`, avoiding $O(N^2)$ pairwise Silhouette overhead. 
+
+### 2.2 Object-Oriented Programming (OOP) Principles
+*(Visual architecture diagrams available in [`reports/images/`](./reports/images/): [`encapsulation_classes.jpeg`](./reports/images/encapsulation_classes.jpeg), [`encapsulation_namespace.jpeg`](./reports/images/encapsulation_namespace.jpeg), [`inheritance_stdlib.jpeg`](./reports/images/inheritance_stdlib.jpeg), [`polymorphism_overview.jpeg`](./reports/images/polymorphism_overview.jpeg))*
+
+1. **Encapsulation & Data Hiding:**
+   * All internal state is `private`: `data_` in [`Dataset`](./include/meanshift/Dataset.hpp) (Line 28), and `bandwidth_`, `epsilon_`, `maxIterations_`, `clusters_`, and `labels_` in [`MeanShift`](./include/meanshift/MeanShift.hpp) (Lines 36–42).
+   * Read access is exposed strictly through `const` member functions returning `const` references (`const Data& getData() const`, `const vector<Cluster>& getClusters() const`, `const vector<int>& getLabels() const`), achieving **zero-copy read efficiency** while preventing external state corruption.
+   * [`Cluster`](./include/meanshift/MeanShift.hpp) (Lines 12–15) is a passive data `struct` (`centroid` and `pointIndices`) safely exposed via `const vector<Cluster>&`.
+2. **Composition & Standard Library Inheritance:**
+   * Our domain classes (`Dataset` and `MeanShift`) have a *"uses-a"* workflow relationship rather than an *"is-a"* hierarchy, so we favor **composition over inheritance**.
+   * **Standard Library Inheritance:** [`Dataset::loadFromCSV()`](./src/Dataset.cpp) leverages the C++ stream hierarchy (`std::ifstream` and `std::stringstream` inheriting from `std::istream`) and exception hierarchy (`std::invalid_argument` and `std::out_of_range` inheriting from `std::exception`).
+3. **Compile-Time & Runtime Polymorphism:**
+   * **Function Overloading via Default Arguments:** `MeanShift(double bandwidth = -1.0, double epsilon = 1e-3, int maxIterations = 300)` can be instantiated with 0, 1, 2, or 3 arguments; `loadFromCSV(const string& filename, bool hasHeader = true)` works with 1 or 2 arguments.
+   * **Parametric Polymorphism (Templates):** Uses C++ STL templates (`std::vector<double>`, `std::vector<Point>`, `std::vector<Cluster>`, `std::min<size_t>`) to support arbitrary $D$-dimensional datasets.
+   * **Runtime Polymorphism:** Uses base-class references in `std::getline(std::istream&, ...)` and `catch (const std::exception& e)`.
+
+[⬆ Back to Top](#quick-navigation-hub)
