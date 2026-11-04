@@ -52,27 +52,39 @@ count++;
 // Set bandwidth to half the average pairwise distance
 // If there are not enough points, use 1.0 as the default
 bandwidth_ = (count > 0) ? (totalDist / count) * 0.5 : 1.0;
-if (bandwidth_ <= 0) bandwidth_ = 1.0;
+// Prevent bandwidth from being zero or negative
+ if (bandwidth_ <= 0) bandwidth_ = 1.0;
 }
 
+// Moves a point toward a nearby high-density region
 Point MeanShift::shiftPoint(const Point& p, const Data& data) const {
-Point shiftedP = p;
-Point numerator(p.size(), 0.0);
-double denominator = 0.0;
+// Start with the original point
+ Point shiftedP = p;
+ // Stores the weighted sum of coordinates
+ Point numerator(p.size(), 0.0);
+// Stores the sum of all weights
+ double denominator = 0.0;
 
+ // Examine every point in the dataset
 for (const auto& other_p : data) {
-double dist = euclideanDistance(p, other_p);
-double weight = gaussianKernel(dist);
+ // Calculate the distance from the current point
+ double dist = euclideanDistance(p, other_p);
+// Calculate the Gaussian weight based on distance
+ double weight = gaussianKernel(dist);
 
+ // Add each coordinate multiplied by its weight
 for (size_t i = 0; i < p.size(); ++i) {
 numerator[i] += other_p[i] * weight;
 }
+ // Add the weight to the total weight
 denominator += weight;
 }
 
+ // Calculate the weighted mean if the total weight is positive
 if (denominator > 0) {
 for (size_t i = 0; i < p.size(); ++i) {
-shiftedP[i] = numerator[i] / denominator;
+// New coordinate = weighted sum / total weight
+ shiftedP[i] = numerator[i] / denominator;
 }
 }
 
