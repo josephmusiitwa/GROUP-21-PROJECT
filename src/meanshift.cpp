@@ -15,29 +15,42 @@ MeanShift::MeanShift(double bandwidth, double epsilon, int maxIterations)
 // Calculates the Euclidean distance between two points
 double MeanShift::euclideanDistance(const Point& a, const Point& b) {
 double sum = 0.0;
+// Calculate the squared difference for each dimension
 for (size_t i = 0; i < a.size(); ++i) {
 sum += (a[i] - b[i]) * (a[i] - b[i]);   
 }
+ // Take the square root to obtain the Euclidean distance
 return sqrt(sum);
 }
 
+// Calculates the Gaussian kernel weight for a given distance
 double MeanShift::gaussianKernel(double distance) const {
+// Points closer to the center receive larger weights
+// Points farther away receive smaller weights
 return exp(-0.5 * (distance * distance) / (bandwidth_ * bandwidth_));
 }
 
+// Estimates the bandwidth automatically from the dataset
 void MeanShift::estimateBandwidth(const Data& data) {
+// If the dataset is empty, there is nothing to estimate
 if (data.empty()) return;
 
-// Sample up to 500 points to avoid O(N^2) pairwise distance cost on large datasets
-size_t numSamples = min<size_t>(500, data.size());  // use at most 500 rows
+// use at most 500 rows/points to reduce computation time
+size_t numSamples = min<size_t>(500, data.size());  
 double totalDist = 0;
 int count = 0;
+// Calculate distances between all pairs of sampled points
 for (size_t i = 0; i < numSamples; ++i) {
 for (size_t j = i + 1; j < numSamples; ++j) {
+// Add the distance between the two points
 totalDist += euclideanDistance(data[i], data[j]);
+//Count the number of distance calculations
 count++;
 }
 }
+
+// Set bandwidth to half the average pairwise distance
+// If there are not enough points, use 1.0 as the default
 bandwidth_ = (count > 0) ? (totalDist / count) * 0.5 : 1.0;
 if (bandwidth_ <= 0) bandwidth_ = 1.0;
 }
