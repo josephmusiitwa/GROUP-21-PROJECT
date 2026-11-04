@@ -36,41 +36,44 @@ p.push_back(stod(token)); // string to double conversion
 }
 }
 if (!p.empty()) {
-data_.push_back(p); //populating the values into data_
+data_.push_back(p); //populating data_
 }
 }
 return true; //success
 }
-
+// providing read only access to the stored dataset 
 const Data& Dataset::getData() const {
-return data_;
+return data_; 
 }
 
 void Dataset::standardize() {
-if (data_.empty()) return;
+if (data_.empty()) return; //check if dataset is empty
 
-size_t numFeatures = data_[0].size();
-Point means(numFeatures, 0.0);
-Point stdDevs(numFeatures, 0.0);
-
+size_t numFeatures = data_[0].size(); // get the number of features in each point
+Point means(numFeatures, 0.0); // store the mean of each feature
+Point stdDevs(numFeatures, 0.0); // store the standard deviation of each feature
+  
+// calculate sum of values for each feature
 for (const auto& point : data_) {
 for (size_t i = 0; i < numFeatures; ++i) {
 means[i] += point[i];
 }
 }
+// calculate mean of each feature
 for (size_t i = 0; i < numFeatures; ++i) {
 means[i] /= data_.size();
 }
-
+// calculate the sum of squared differences from the mean
 for (const auto& point : data_) {
 for (size_t i = 0; i < numFeatures; ++i) {
 stdDevs[i] += pow(point[i] - means[i], 2);
 }
-}
+} 
+// calculate the standard deviation of each feature
 for (size_t i = 0; i < numFeatures; ++i) {
 stdDevs[i] = sqrt(stdDevs[i] / data_.size());
 }
-
+// standardise each feature of every point
 for (auto& point : data_) {
 for (size_t i = 0; i < numFeatures; ++i) {
 if (stdDevs[i] != 0) {
