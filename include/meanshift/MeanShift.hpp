@@ -7,7 +7,7 @@
 #include <cstddef>
 
 using namespace std;
-
+//isolating the module to prevent naming conflicts
 namespace meanshift {
 
 struct Cluster {
