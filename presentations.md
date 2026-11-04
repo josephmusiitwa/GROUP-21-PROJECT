@@ -3,9 +3,6 @@
 **Course Project:** Machine Learning 13 — Design and Implementation of the Mean Shift Clustering Algorithm in C++  
 **Repository:** `GROUP-21-PROJECT` | **Language Standard:** C++23 | **Build System:** CMake & CTest
 
-> **How to Use This Guide in VS Code:**  
-> Open this file in VS Code and press `Ctrl+Shift+V` (or click **Open Preview to the Side**) to render the interactive documentation, mathematical formulas, and clickable hyperlinks. Click any file link below to jump directly to the source code in the VS Code editor.
-
 ---
 
 ## Quick Navigation Hub
