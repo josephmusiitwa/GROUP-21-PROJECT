@@ -119,12 +119,14 @@ break;
 }
 clusterIdx++;
 }
-
+  
+// start a new cluster if nearby cluster is not found
 if (!found) {
 Cluster newCluster;
 newCluster.centroid = shiftedPoints[i];
 newCluster.pointIndices.push_back(i);
 clusters_.push_back(newCluster);
+  //index of the cluster just added
 labels_[i] = clusters_.size() - 1;
 }
 }
