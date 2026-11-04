@@ -82,11 +82,13 @@ for (size_t i = 0; i < shiftedPoints.size(); ++i) {
 if (stopMoving[i]) continue;
 //one step
 Point newPoint = shiftPoint(shiftedPoints[i], data);
+  //how far it moved
 double dist = euclideanDistance(shiftedPoints[i], newPoint);
-
+//tiny step: it has arrived
 if (dist < epsilon_) {
 stopMoving[i] = true;
 } else {
+  //still moving: need another round
 allStopped = false;
 }
 shiftedPoints[i] = newPoint;
