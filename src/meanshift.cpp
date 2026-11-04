@@ -1,18 +1,22 @@
+// Include the MeanShift class declaration,  mathematical functions such as sqrt() and exp() and algorithms such as min()
 #include "meanshift/MeanShift.hpp"
 #include <cmath>
 #include <algorithm>
 
 using namespace std;
 
+// All Mean Shift code is placed inside the meanshift namespace
 namespace meanshift {
 
+// Constructor: initializes the Mean Shift parameters
 MeanShift::MeanShift(double bandwidth, double epsilon, int maxIterations)
 : bandwidth_(bandwidth), epsilon_(epsilon), maxIterations_(maxIterations) {}
 
+// Calculates the Euclidean distance between two points
 double MeanShift::euclideanDistance(const Point& a, const Point& b) {
 double sum = 0.0;
 for (size_t i = 0; i < a.size(); ++i) {
-sum += (a[i] - b[i]) * (a[i] - b[i]);   //squared difference per column
+sum += (a[i] - b[i]) * (a[i] - b[i]);   
 }
 return sqrt(sum);
 }
