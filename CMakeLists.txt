@@ -8,7 +8,7 @@ LANGUAGES CXX
 
 add_library(meanshift STATIC
 src/Dataset.cpp
-src/MeanShift.cpp
+src/meanshift.cpp
 )
 
 target_include_directories(meanshift

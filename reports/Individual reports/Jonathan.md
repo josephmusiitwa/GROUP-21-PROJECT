@@ -10,7 +10,7 @@
 
 ## 1. Introduction and Role Overview
 
-In the Group 21 Mean Shift Clustering C++ Library project, i implemented the two core **Kernel Density Estimation (KDE) mechanics** of the Mean Shift algorithm in `src/meanshift.cpp`:
+In the Group 21 Mean Shift Clustering C++ Library project, i implemented the two core **Kernel Density Estimatioon (KDE) mechanics** of the Mean Shift algorithm in `src/meanshift.cpp`:
 1. **`MeanShift::estimateBandwidth(const Data& data)`:** A data-driven heuristic that automatically computes a suitable kernel radius (`bandwidth_`) when the user does not specify one (`bandwidth <= 0`).
 2. **`MeanShift::shiftPoint(const Point& p, const Data& data) const`:** The fundamental mathematical update rule of the Mean Shift algorithm, which computes the kernel-weighted center of mass around a point $p$ and shifts $p$ toward the local maximum of data density.
 
