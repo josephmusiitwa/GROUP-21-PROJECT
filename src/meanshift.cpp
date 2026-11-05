@@ -135,10 +135,11 @@ break;
 }
 
 // Merge converged points within bandwidth / 2 into clusters
-clusters_.clear();
+clusters_.clear();/wipes out any left over clusters from previous calls/
   //-1 = "not assigned"
+  /resizes the labels array to match the total number of input points/
 labels_.assign(data.size(), -1);
-
+/iterate through shifted points and initializes keeping track of both the current cordinates and its origin/
 for (size_t i = 0; i < shiftedPoints.size(); ++i) {
 int clusterIdx = 0;
 bool found = false;
@@ -157,11 +158,16 @@ clusterIdx++;
   
 // start a new cluster if nearby cluster is not found
 if (!found) {
+  /creates a fresh container object to hold point indices of the new cluster/
 Cluster newCluster;
+/sets the centroid member of newcluster to converged coordinate vector/
 newCluster.centroid = shiftedPoints[i];
+/pushes the current points original O based indexi to the vector/ 
 newCluster.pointIndices.push_back(i);
+/appends newcluster to the classmaster vector container/
 clusters_.push_back(newCluster);
   //index of the cluster just added
+  /computes cluster-size and assigns that value to labels-i/
 labels_[i] = clusters_.size() - 1;
 }
 }
