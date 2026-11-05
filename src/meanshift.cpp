@@ -93,7 +93,7 @@ return shiftedP;
 
 // Main function that performs Mean Shift clustering
 void MeanShift::fit(const Data& data) {
-// Stop if the dataset contains no points
+// exit if the dataset contains no points
  if (data.empty()) return;
 
  // Estimate bandwidth if it has not been set properly
@@ -101,23 +101,23 @@ if (bandwidth_ <= 0) {
 estimateBandwidth(data);
 }
  
- // Initially, each point is at its original position
+ // creates a working copy of all points
 vector<Point> shiftedPoints = data;
- // Track which points have stopped moving
+ // Track which points have stopped moving. vector initialised to false
  vector<bool> stopMoving(data.size(), false);
 
- // Repeat the shifting process up to maxIterations
+ // oterative loop that evaluates up to maxIterations
 for (int iter = 0; iter < maxIterations_; ++iter) {
-  //unused left over variable
+  //initializes 
 int maxDistMoved = 0;
 bool allStopped = true;
-
+//loops through all points
 for (size_t i = 0; i < shiftedPoints.size(); ++i) {
-  // already settled: skip (saves time)
+  // If one has settled: skip (saves time)
 if (stopMoving[i]) continue;
-//one step
+//function moves point up one step
 Point newPoint = shiftPoint(shiftedPoints[i], data);
-  //how far it moved
+  //straight line distance moved
 double dist = euclideanDistance(shiftedPoints[i], newPoint);
 //tiny step: it has arrived
 if (dist < epsilon_) {
