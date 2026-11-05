@@ -5,8 +5,7 @@
 **Member Name / Role:** Member 9 (Joseph) — *CMake Build System Architecture, Repository Integration, Automated Unit Testing Suite (`tests/test_meanshift.cpp`) & External Machine Verification*  
 **Primary Files Contributed:**  
 - `CMakeLists.txt` (Root static library build, target exports & installation rules)  
-- `examples/CMakeLists.txt` & `tests/CMakeLists.txt`  
-- `.gitignore`  
+- `examples/CMakeLists.txt` & `tests/CMakeLists.txt`   
 - `tests/test_meanshift.cpp` (Complete 10-function C++ automated unit test suite for `Dataset` and `MeanShift`)  
 - Repository structure, code alignment & final cross-machine build verification
 
@@ -14,7 +13,7 @@
 
 ## 1. Introduction and Role Overview
 
-In the Group 21 Mean Shift Clustering C++ Library project, my primary responsibility was designing and maintaining the **CMake Build System Architecture**, configuring the **Repository Structure and `.gitignore`**, coordinating **Code Integration across all modules**, and implementing the **10-Test Automated C++ Unit Testing Suite (`tests/test_meanshift.cpp`)**.
+In the Group 21 Mean Shift Clustering C++ Library project, my primary responsibility was designing and maintaining the **CMake Build System Architecture**, configuring the **Repository Structure, coordinating **Code Integration across all modules**, and implementing the **10-Test Automated C++ Unit Testing Suite (`tests/test_meanshift.cpp`)**.
 
 According to the `C++ Group Project Instructions.docx`, the project must be packaged as a **reusable C++ library** (not just a standalone script), must build cleanly from a fresh environment using `CMakeLists.txt`, and must include automated unit tests verifying normal use cases, edge cases, and invalid inputs. My work ensured that our source files (`src/Dataset.cpp` and `src/meanshift.cpp`) compile into a portable static library (`libmeanshift.a` / `meanshift.lib`), link cleanly into both the demonstration executables (`example1`, `example2`, `example3`) and the CTest test runner (`test_meanshift`), and pass all 10 automated C++ unit tests on both team and external peer machines.
 
