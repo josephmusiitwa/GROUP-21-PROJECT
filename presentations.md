@@ -7,7 +7,7 @@ GROUP-21-PROJECT MEANSHIFT CLUSTERING ALGORITHM PRESENTATION
    - [3.2 Module B: Mean Shift Clustering Engine (`MeanShift` & `Cluster`)](#32-module-b-mean-shift-clustering-engine-meanshift--cluster)
 4. [4. Individual Team Contributions](#4-individual-team-contributions)
 5. [5. Practical Demonstrations & Automated Testing ](#5-practical-demonstrations--automated-testing-)
-6. [6. Live Coding Walkthroughs](#6-live-coding-walkthroughs)
+
 
 ### Direct Repository File Links (Click to Open in VS Code)
 * **Build & Configuration:** [`CMakeLists.txt`](./CMakeLists.txt) | [`examples/CMakeLists.txt`](./examples/CMakeLists.txt) | [`tests/CMakeLists.txt`](./tests/CMakeLists.txt) | [`.gitignore`](./.gitignore) | [`README.md`](./README.md)
