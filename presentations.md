@@ -6,8 +6,6 @@
 
 ## Summary & Quick Navigation
 
-Use this summary section to jump directly to any part of the presentation:
-
 * **[1. Introduction](#1-introduction)** — Core concepts, problem statement, non-parametric mode-seeking workflow, and complete mathematical formulation.
   * [$\rightarrow$ 1.1 Definitions](#11-definitions)
   * [$\rightarrow$ 1.2 What It Does](#12-what-it-does)
