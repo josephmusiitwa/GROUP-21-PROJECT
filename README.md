@@ -13,7 +13,7 @@
 | Kizza Johnson | 25/U/08587/PS | `Dataset` class, `loadFromCSV`, `getData`, mean and standard deviation in `standardize`, `testEstimateBandwidth`, `testGetLabels`, `biology_data.csv` |
 | Atugonza Simon | 25/U/26724 | `euclideanDistance`, `example1.cpp`, CSV data files including `text_data.csv` |
 | Muzaki Desire | 25/U/08756/PS | Cluster formation stage of `fit()`, `testNormalize`, `example3.cpp` |
-| Clive | 25/U/08617/PS | `getClusters`, `getLabels`, `evaluate`, `testEvaluate`, `testEmptyData` |
+| Ssekiziyivu Clive Luwagga | 25/U/08617/PS | `getClusters`, `getLabels`, `evaluate`, `testEvaluate`, `testEmptyData` |
 | Sserunkuma Jonathan | 25/U/07967/PS | `estimateBandwidth`, `shiftPoint`, `example2.cpp` (with Mark) |
 
 More detail is in `reports/Individual reports/`.
