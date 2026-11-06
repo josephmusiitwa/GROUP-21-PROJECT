@@ -2,13 +2,29 @@
 
 **Group 21**· Machine Learning 13: **Mean Shift Clustering in C++**
 
-## 1. Overview
+## 1. Group members and contributions
+
+| Member | Main contribution |
+| :--- | :--- |
+| Musiitwa Joseph | Repository set-up, `CMakeLists.txt`, `.gitignore`, test set-up and first tests, merging pull requests, coordinating integration and testing |
+| Muhindo Nazarene | First stage of `fit()` (repeated shifting and stop flag), `MeanShift.hpp` declarations, a test, `finance.csv` |
+| Mark Jordan | Repository skeleton, `example2.cpp` (with Jonathan), `my_data.csv`, class diagrams, reviewing and merging pull requests, Week 4 report |
+| Atuzarirwe Happy | `standardize()` scaling step, `normalize()`, `testLoadFromCSV`, `testStandardize`, `students.csv` |
+| Kizza Johnson | `Dataset` class, `loadFromCSV`, `getData`, mean and standard deviation in `standardize`, `testEstimateBandwidth`, `testGetLabels`, `biology_data.csv` |
+| Atugonza Simon | `euclideanDistance`, `example1.cpp`, CSV data files including `text_data.csv` |
+| Muzaki Desire | Cluster formation stage of `fit()`, `testNormalize`, `example3.cpp` |
+| Clive | `getClusters`, `getLabels`, `evaluate`, `testEvaluate`, `testEmptyData` |
+| Sserunkuma Jonathan | `estimateBandwidth`, `shiftPoint`, `example2.cpp` (with Mark) |
+
+More detail is in `reports/Individual reports/`.
+
+## 2. Overview
 
 This is a reusable C++ library that implements **Mean Shift clustering**. Clustering means grouping similar data points together without being told the groups in advance. Unlike k-means, Mean Shift does not need you to say how many clusters you want. It finds that number from the data.
 
 You give the library a set of points (for example, rows from a CSV file). It gives back the cluster centres, which points belong to which cluster, and a simple score for how tight the clusters are.
 
-## 2. Objectives
+## 3. Objectives
 
 - Implement Mean Shift clustering using C++ classes.
 - Keep a clear public interface (headers in `include/`, code in `src/`).
@@ -18,7 +34,7 @@ You give the library a set of points (for example, rows from a CSV file). It giv
 - Build from a clean machine with CMake.
 - Work as a team using Git and GitHub.
 
-## 3. Main features
+## 4. Main features
 
 | Feature | Function |
 | :--- | :--- |
@@ -34,7 +50,7 @@ You give the library a set of points (for example, rows from a CSV file). It giv
 | Cluster quality score | `MeanShift::evaluate` |
 | Any numeric type (`short`, `int`, `long`, `unsigned`, `int8_t`, `float`, `double`, `long double`, ...) | `BasicDataset<T>`, `BasicMeanShift<T, R, K>` |
 
-## 4. Project structure
+## 5. Project structure
 
 ```
 GROUP-21-PROJECT/
@@ -51,7 +67,7 @@ GROUP-21-PROJECT/
 └── reports/              weekly reports, individual reports, final report
 ```
 
-## 5. Requirements
+## 6. Requirements
 
 - Git
 - CMake 3.15 or newer
@@ -59,7 +75,7 @@ GROUP-21-PROJECT/
 
 There are no other dependencies. The library uses only the C++ standard library.
 
-## 6. How to build
+## 7. How to build
 
 ```
 git clone https://github.com/josephmusiitwa/GROUP-21-PROJECT.git
@@ -70,7 +86,7 @@ cmake --build build
 
 This creates the library `libmeanshift.a` (or `meanshift.lib` on Windows), the three example programs and the test program inside the `build` folder.
 
-## 7. How to use the library
+## 8. How to use the library
 
 ```cpp
 #include "meanshift/Dataset.hpp"
@@ -134,7 +150,7 @@ Feature1,Feature2
 8.0,8.1
 ```
 
-## 8. Examples
+## 9. Examples
 
 | Program | What it does |
 | :--- | :--- |
@@ -164,7 +180,7 @@ Clustering evaluation score (cohesion): 0.622962
 
 Sample data in `data/input/`: `my_data.csv`, `biology_data.csv`, `finance.csv`, `students.csv`, `text_data.csv`.
 
-## 9. How to run the tests
+## 10. How to run the tests
 
 ```
 cd build
@@ -178,7 +194,7 @@ ctest --output-on-failure
 
 Tests that need files create and delete their own temporary CSV, so they can be run from any folder.
 
-## 10. Limitations
+## 11. Limitations
 
 - Each step compares a point with every other point, so it gets slow on very large data.
 - Kernels are chosen at compile time (template parameter), not at run time.
@@ -189,22 +205,6 @@ Tests that need files create and delete their own temporary CSV, so they can be 
 - `example3` does not accept file paths with spaces.
 - The project needs a compiler with C++23 support (concepts and `std::from_chars` for floating-point types are used).
 - `long long` values above 2^53 lose precision, because the default compute type for integers is `double`.
-
-## 11. Contributions by group members
-
-| Member | Main contribution |
-| :--- | :--- |
-| Musiitwa Joseph | Repository set-up, `CMakeLists.txt`, `.gitignore`, test set-up and first tests, merging pull requests, coordinating integration and testing |
-| Muhindo Nazarene | First stage of `fit()` (repeated shifting and stop flag), `MeanShift.hpp` declarations, a test, `finance.csv` |
-| Mark Jordan | Repository skeleton, `example2.cpp` (with Jonathan), `my_data.csv`, class diagrams, reviewing and merging pull requests, Week 4 report |
-| Atuzarirwe Happy | `standardize()` scaling step, `normalize()`, `testLoadFromCSV`, `testStandardize`, `students.csv` |
-| Kizza Johnson | `Dataset` class, `loadFromCSV`, `getData`, mean and standard deviation in `standardize`, `testEstimateBandwidth`, `testGetLabels`, `biology_data.csv` |
-| Atugonza Simon | `euclideanDistance`, `example1.cpp`, CSV data files including `text_data.csv` |
-| Muzaki Desire | Cluster formation stage of `fit()`, `testNormalize`, `example3.cpp` |
-| Clive | `getClusters`, `getLabels`, `evaluate`, `testEvaluate`, `testEmptyData` |
-| Sserunkuma Jonathan | `estimateBandwidth`, `shiftPoint`, `example2.cpp` (with Mark) |
-
-More detail is in `reports/Individual reports/`.
 
 ## 12. How we collaborated
 
