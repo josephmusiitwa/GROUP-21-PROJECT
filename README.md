@@ -7,14 +7,14 @@
 | Member | Registration No. | Main contribution |
 | :--- | :--- | :--- |
 | Musiitwa Joseph | 25/U/0841 | Repository set-up, `CMakeLists.txt`, `.gitignore`, test set-up and first tests, merging pull requests, coordinating integration and testing |
-| Muhindo Nazarene | 25/U/08597/PS | First stage of `fit()` (repeated shifting and stop flag), `MeanShift.hpp` declarations, a test, `finance.csv` |
-| Mark Jordan | 25/U/08758/PS | Repository skeleton, `example2.cpp` (with Jonathan), `my_data.csv`, class diagrams, reviewing and merging pull requests, Week 4 report |
+| Muhindo Nazarene Kamabu | 25/U/08597/PS | First stage of `fit()` (repeated shifting and stop flag), `MeanShift.hpp` declarations, a test, `finance.csv` |
+| Mwesigwa Mark Jordan | 25/U/08758/PS | Repository skeleton, `example2.cpp` (with Jonathan), `my_data.csv`, class diagrams, reviewing and merging pull requests, Week 4 report |
 | Atuzarirwe Happy | 25/U/03679/EVE | `standardize()` scaling step, `normalize()`, `testLoadFromCSV`, `testStandardize`, `students.csv` |
-| Kizza Johnson | 25/U/08587/PS | `Dataset` class, `loadFromCSV`, `getData`, mean and standard deviation in `standardize`, `testEstimateBandwidth`, `testGetLabels`, `biology_data.csv` |
+| Kizza Johnson Ssozi | 25/U/08587/PS | `Dataset` class, `loadFromCSV`, `getData`, mean and standard deviation in `standardize`, `testEstimateBandwidth`, `testGetLabels`, `biology_data.csv` |
 | Atugonza Simon | 25/U/26724 | `euclideanDistance`, `example1.cpp`, CSV data files including `text_data.csv` |
-| Muzaki Desire | 25/U/08756/PS | Cluster formation stage of `fit()`, `testNormalize`, `example3.cpp` |
+| Muzaki Desire Wadelo F | 25/U/08756/PS | Cluster formation stage of `fit()`, `testNormalize`, `example3.cpp` |
 | Ssekiziyivu Clive Luwagga | 25/U/08617/PS | `getClusters`, `getLabels`, `evaluate`, `testEvaluate`, `testEmptyData` |
-| Sserunkuma Jonathan | 25/U/07967/PS | `estimateBandwidth`, `shiftPoint`, `example2.cpp` (with Mark) |
+| Sserunkuma Jonathan G | 25/U/07967/PS | `estimateBandwidth`, `shiftPoint`, `example2.cpp` (with Mark) |
 
 More detail is in `reports/Individual reports/`.
 
